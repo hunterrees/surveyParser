@@ -5,13 +5,13 @@ import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
-import model.Student;
+import model.Person;
 
 import java.io.File;
 import java.util.List;
 
 /**
- * Extracts data from Google Spreadsheets and parses it into headers and individual Student objects.
+ * Extracts data from Google Spreadsheets and parses it into headers and individual Person objects.
  */
 class DataParser {
 
@@ -41,12 +41,12 @@ class DataParser {
   }
 
   /**
-   * Parses the list of lists of objects into a list of Student objects.
-   * @param data a non-null list of lists of objects containg the spreadsheet data
-   * @param imageColumn a non-null string which is column in the spreadsheet that contains the url of the student image
-   * @return list of Student objects
+   * Parses the list of lists of objects into a list of Person objects.
+   * @param data a non-null list of lists of objects containing the spreadsheet data
+   * @param imageColumn a non-null string which is column in the spreadsheet that contains the url of the person's image
+   * @return list of Person objects
    */
-  List<Student> parseData(List<List<Object>> data, String imageColumn) {
+  List<Person> parseData(List<List<Object>> data, String imageColumn) {
     return null;
   }
 

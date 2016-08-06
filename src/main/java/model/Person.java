@@ -1,11 +1,16 @@
 package model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.List;
 
 /**
  * Model class that holds the survey data responses for one person.
  */
 public class Person {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(Person.class);
 
   private List<String> data;
 

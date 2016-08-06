@@ -6,6 +6,8 @@ import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
 import com.google.api.services.sheets.v4.model.ValueRange;
 import model.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.List;
@@ -14,6 +16,8 @@ import java.util.List;
  * Extracts data from Google Spreadsheets and parses it into headers and individual Person objects.
  */
 class DataParser {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(DataParser.class);
 
   private HttpTransport httpTransport;
   private JsonFactory jsonFactory;

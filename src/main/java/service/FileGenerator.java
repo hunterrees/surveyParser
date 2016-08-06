@@ -1,6 +1,8 @@
 package service;
 
 import model.Person;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.FileWriter;
 import java.util.List;
@@ -10,6 +12,8 @@ import java.util.List;
  * These views are generated in the form of html files.
  */
 class FileGenerator {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(FileGenerator.class);
 
   private FileWriter fileWriter;
   private List<String> headers;

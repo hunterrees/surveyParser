@@ -1,10 +1,15 @@
 package service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * Facade of the back-end service of the application. Uses the DataParser and FileGenerator classes to take
  * the survey data and create the appropriate file for each person.
  */
 public class SurveyParser {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(SurveyParser.class);
 
   private DataParser dataParser;
   private FileGenerator fileGenerator;

@@ -1,24 +1,34 @@
 package model;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Model class that holds the survey data responses for one person.
  */
 public class Person {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(Person.class);
+  static final String GIVEN_FIRST_NAME_KEY = "Given First Name";
+  static final String FIRST_NAME_KEY = "First Name";
+  static final String LAST_NAME_KEY = "Last Name";
+  static final String PREFERRED_NAME_KEY = "Preferred First Name";
+  static final String SAME = "Same";
 
-  private List<String> data;
+  private Map<String, String> data;
+
+  public Person() {
+    data = new HashMap<>();
+  }
+
+  public Person(Map<String, String> data) {
+    this.data = data;
+  }
 
   /**
    * Retrieves data responses of the person.
    * @return data responses
    */
-  public List<String> getData() {
+  public Map<String, String> getData() {
     return data;
   }
 
@@ -26,7 +36,7 @@ public class Person {
    * Sets data responses of person.
    * @param data a non-null list of strings
    */
-  public void setData(List<String> data) {
+  public void setData(Map<String, String> data) {
     this.data = data;
   }
 
@@ -35,6 +45,27 @@ public class Person {
    * @return name of file associated with person
    */
   public String getFileName() {
-    return null;
+    StringBuilder result = new StringBuilder();
+
+    String firstName = data.get(GIVEN_FIRST_NAME_KEY);
+    if (firstName == null) {
+      firstName = data.get(FIRST_NAME_KEY);
+    }
+    String lastName = data.get(LAST_NAME_KEY);
+    String preferredName = data.get(PREFERRED_NAME_KEY);
+
+    if (areSame(firstName, preferredName)) {
+      result.append(firstName);
+    }
+    else {
+      result.append(preferredName);
+    }
+    result.append(" " + lastName + ".html");
+
+    return result.toString();
+  }
+
+  private boolean areSame(String firstName, String preferredName) {
+    return firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME);
   }
 }

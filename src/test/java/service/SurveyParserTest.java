@@ -1,15 +1,86 @@
 package service;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import model.Person;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.*;
 
 public class SurveyParserTest {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(SurveyParserTest.class);
+  private static final String URL = "https://docs.google.com/spreadsheets/test";
+  private static final String DATA_RANGE = "A1:D3";
+  private static final String IMAGE_COLUMN = "C";
+  private static final String INVALID_URL = "https://facebook.com";
+  private static final String INVALID_COLUMN_RANGE = "D1:A2";
+  private static final String INVALID_ROW_RANGE = "A2:B1";
+  private static final String INVALID_IMAGE_COLUMN = "E";
+
+  @Mock
+  private DataParser dataParser;
+  @Mock
+  private FileGenerator fileGenerator;
+
+  private List<Person> people;
+  private List<List<Object>> data;
+
+  private SurveyParser testModel;
+
+  @BeforeMethod
+  public void setUp() {
+    MockitoAnnotations.initMocks(this);
+    people = new ArrayList<>();
+    data = new ArrayList<>();
+
+    when(dataParser.parseData(data, IMAGE_COLUMN)).thenReturn(people);
+    when(dataParser.retrieveData(URL, DATA_RANGE)).thenReturn(data);
+
+    testModel = new SurveyParser(dataParser, fileGenerator);
+  }
 
   @Test
-  public void test() {
+  public void shouldRetrieveDataFromGoogle() {
+    testModel.run(URL, DATA_RANGE, IMAGE_COLUMN);
 
+    verify(dataParser).retrieveData(URL, DATA_RANGE);
+  }
+
+  @Test
+  public void shouldParseRetrievedData() {
+    testModel.run(URL, DATA_RANGE, IMAGE_COLUMN);
+
+    verify(dataParser).parseData(data, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = RuntimeException.class)
+  public void shouldGenerateFilesFromParsedData() {
+    doThrow(new RuntimeException()).when(fileGenerator).generateFiles(people);
+
+    testModel.run(URL, DATA_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = ".*URL must contain.*")
+  public void shouldRejectInvalidUrl() {
+    testModel.run(INVALID_URL, DATA_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = ".*Range is invalid.*")
+  public void shouldRejectInvalidColumnRange() {
+    testModel.run(URL, INVALID_COLUMN_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = ".*Range is invalid.*")
+  public void shouldRejectInvalidRowRange() {
+    testModel.run(URL, INVALID_ROW_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class, expectedExceptionsMessageRegExp = ".*Image Column must be within given range.*")
+  public void shouldRejectInvalidImageColumn() {
+    testModel.run(URL, DATA_RANGE, INVALID_IMAGE_COLUMN);
   }
 }

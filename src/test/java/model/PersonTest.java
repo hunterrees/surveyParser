@@ -69,7 +69,7 @@ public class PersonTest {
 
     assertEquals(expected, result);
   }
-  
+
   @Test
   public void shouldFindFirstNameIfKeyIsDifferent() {
     data.remove(Person.GIVEN_FIRST_NAME_KEY);

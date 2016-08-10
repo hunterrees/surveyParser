@@ -4,7 +4,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.json.JsonFactory;
 import com.google.api.client.util.store.FileDataStoreFactory;
 import com.google.api.services.sheets.v4.Sheets;
-import com.google.api.services.sheets.v4.model.ValueRange;
 import model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,16 +30,7 @@ class DataParser {
    * @param range a non-null string which is range of cells to extract from the spreadsheet
    * @return values from the spreadsheet in the given range
    */
-  ValueRange retrieveData(String url, String range) {
-    return null;
-  }
-
-  /**
-   * Parses the list of objects given into a list of headers.
-   * @param values a non-null list of objects
-   * @return list of string containing header values
-   */
-  List<String> parseHeaders(List<Object> values) {
+  List<List<Object>> retrieveData(String url, String range) {
     return null;
   }
 

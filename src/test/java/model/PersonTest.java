@@ -16,6 +16,7 @@ public class PersonTest {
   private static final String PREFERRED_SAME = FIRST_NAME;
   private static final String PREFERRED_DIFFERENT = "Preferred";
   private static final String PREFERRED_LOWER_CASE = "first";
+  private static final String OR_PREFERRED = "Preferred or Pref";
 
   private Person testModel;
 
@@ -75,6 +76,16 @@ public class PersonTest {
     data.remove(Person.GIVEN_FIRST_NAME_KEY);
     data.put(Person.FIRST_NAME_KEY, FIRST_NAME);
     String expected = "First Last.html";
+
+    String result = testModel.getFileName();
+
+    assertEquals(expected, result);
+  }
+
+  @Test
+  public void shouldGenerateCorrectPreferredNameIfOrIsIncluded() {
+    data.put(Person.PREFERRED_NAME_KEY, OR_PREFERRED);
+    String expected = "Preferred Last.html";
 
     String result = testModel.getFileName();
 

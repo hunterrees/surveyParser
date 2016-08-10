@@ -58,7 +58,7 @@ public class Person {
       result.append(firstName);
     }
     else {
-      result.append(preferredName);
+      result.append(getPreferredName(preferredName));
     }
     result.append(" " + lastName + ".html");
 
@@ -67,5 +67,13 @@ public class Person {
 
   private boolean areSame(String firstName, String preferredName) {
     return firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME);
+  }
+
+  private String getPreferredName(String preferredName) {
+    int indexOfOr = preferredName.indexOf("or");
+    if (indexOfOr != -1) {
+      preferredName = preferredName.substring(0, indexOfOr).trim();
+    }
+    return preferredName;
   }
 }

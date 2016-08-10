@@ -6,10 +6,8 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import service.SurveyParser;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.*;
+import java.security.GeneralSecurityException;
 import java.util.Scanner;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -24,8 +22,8 @@ public class AcceptanceTests {
   private static final String RANGE = "B1:I3";
   private static final String IMAGE_COLUMN = "D";
 
-  private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/test/resources/testOne.html";
-  private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/test/resources/testTwo.html";
+  private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/acceptance/test/resources/testOne.html";
+  private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/testTwo.html";
 
   private static final String FILE_PATH_TEST_ONE_ACTUAL = "studentPages/testOne.html";
   private static final String FILE_PATH_TEST_TWO_ACTUAL = "studentPages/testTwo.html";
@@ -36,7 +34,7 @@ public class AcceptanceTests {
   private SurveyParser surveyParser;
 
   @BeforeClass
-  public void setUp() throws FileNotFoundException {
+  public void setUp() throws IOException, GeneralSecurityException {
     surveyParser = new SurveyParser();
 
     LOGGER.info("Reading contents of expected files");
@@ -44,8 +42,8 @@ public class AcceptanceTests {
     testTwoExpected = readData(new File(FILE_PATH_TEST_TWO_EXPECTED));
   }
 
-  @Test (enabled = false)
-  public void acceptanceTest() throws FileNotFoundException {
+  @Test
+  public void acceptanceTest() throws IOException {
     LOGGER.info("Starting run of Survey Parser with url={} range={} image_column={}", URL, RANGE, IMAGE_COLUMN);
     surveyParser.run(URL, RANGE, IMAGE_COLUMN);
 

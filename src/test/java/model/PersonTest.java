@@ -3,7 +3,7 @@ package model;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
@@ -17,78 +17,77 @@ public class PersonTest {
   private static final String PREFERRED_DIFFERENT = "Preferred";
   private static final String PREFERRED_LOWER_CASE = "first";
   private static final String OR_PREFERRED = "Preferred or Pref";
+  private static final String IMAGE_LINK = "image link";
+
+  private Map<String, String> data;
+  private String expected;
 
   private Person testModel;
 
-  private Map<String, String> data;
-
   @BeforeMethod
   public void setUp() {
-    data = new HashMap<>();
+    data = new LinkedHashMap<>();
     data.put(Person.GIVEN_FIRST_NAME_KEY, FIRST_NAME);
     data.put(Person.LAST_NAME_KEY, LAST_NAME);
     data.put(Person.PREFERRED_NAME_KEY, PREFERRED_SAME);
 
-    testModel = new Person(data);
+    expected = "First Last.html";
+
+    testModel = new Person(data, IMAGE_LINK);
   }
 
   @Test
   public void shouldReturnCorrectFileName() {
-    String expected = "First Last.html";
-
     String result = testModel.getFileName();
 
-    assertEquals(expected, result);
+    assertEquals(result, expected);
   }
 
   @Test
   public void shouldReturnPreferredNameInFileIfDifferent() {
     data.put(Person.PREFERRED_NAME_KEY, PREFERRED_DIFFERENT);
-    String expected = "Preferred Last.html";
+    expected = "Preferred Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(expected, result);
+    assertEquals(result, expected);
   }
 
   @Test
   public void shouldReturnFirstNameIfPreferredIsStringLiteralSame() {
     data.put(Person.PREFERRED_NAME_KEY, Person.SAME);
-    String expected = "First Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(expected, result);
+    assertEquals(result, expected);
   }
 
   @Test
   public void shouldBeCaseInsensitive() {
     data.put(Person.PREFERRED_NAME_KEY, PREFERRED_LOWER_CASE);
-    String expected = "First Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(expected, result);
+    assertEquals(result, expected);
   }
 
   @Test
   public void shouldFindFirstNameIfKeyIsDifferent() {
     data.remove(Person.GIVEN_FIRST_NAME_KEY);
     data.put(Person.FIRST_NAME_KEY, FIRST_NAME);
-    String expected = "First Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(expected, result);
+    assertEquals(result, expected);
   }
 
   @Test
   public void shouldGenerateCorrectPreferredNameIfOrIsIncluded() {
     data.put(Person.PREFERRED_NAME_KEY, OR_PREFERRED);
-    String expected = "Preferred Last.html";
+    expected = "Preferred Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(expected, result);
+    assertEquals(result, expected);
   }
 }

@@ -16,7 +16,6 @@ class FileGenerator {
   private static final Logger LOGGER = LoggerFactory.getLogger(FileGenerator.class);
 
   private FileWriter fileWriter;
-  private List<String> headers;
 
   /**
    * Generates an html file for each person in the list given.

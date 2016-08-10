@@ -1,6 +1,5 @@
 package model;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -8,20 +7,18 @@ import java.util.Map;
  */
 public class Person {
 
-  static final String GIVEN_FIRST_NAME_KEY = "Given First Name";
+  public static final String GIVEN_FIRST_NAME_KEY = "Given First Name";
+  public static final String LAST_NAME_KEY = "Last Name";
   static final String FIRST_NAME_KEY = "First Name";
-  static final String LAST_NAME_KEY = "Last Name";
   static final String PREFERRED_NAME_KEY = "Preferred First Name";
   static final String SAME = "Same";
 
   private Map<String, String> data;
+  private String imageLink;
 
-  public Person() {
-    data = new HashMap<>();
-  }
-
-  public Person(Map<String, String> data) {
+  public Person(Map<String, String> data, String imageLink) {
     this.data = data;
+    this.imageLink = imageLink;
   }
 
   /**
@@ -33,11 +30,11 @@ public class Person {
   }
 
   /**
-   * Sets data responses of person.
-   * @param data a non-null list of strings
+   * Retrieves image link of the person.
+   * @return image link
    */
-  public void setData(Map<String, String> data) {
-    this.data = data;
+  public String getImageLink() {
+    return imageLink;
   }
 
   /**
@@ -60,7 +57,9 @@ public class Person {
     else {
       result.append(getPreferredName(preferredName));
     }
-    result.append(" " + lastName + ".html");
+    result.append(" ");
+    result.append(lastName);
+    result.append(".html");
 
     return result.toString();
   }
@@ -75,5 +74,15 @@ public class Person {
       preferredName = preferredName.substring(0, indexOfOr).trim();
     }
     return preferredName;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    boolean result = false;
+    if (o instanceof Person) {
+      Person that = (Person) o;
+      result = this.getData().equals(that.getData()) && this.getImageLink().equals(that.getImageLink());
+    }
+    return result;
   }
 }

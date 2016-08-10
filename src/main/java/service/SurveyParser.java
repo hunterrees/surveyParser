@@ -4,6 +4,8 @@ import model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 /**
@@ -23,7 +25,7 @@ public class SurveyParser {
   private DataParser dataParser;
   private FileGenerator fileGenerator;
 
-  public SurveyParser() {
+  public SurveyParser() throws IOException, GeneralSecurityException {
     this(new DataParser(), new FileGenerator());
   }
 
@@ -38,12 +40,14 @@ public class SurveyParser {
    * @param url a non-null string which is the full url path of the Google Spreadsheet
    * @param range a non-null string which is range of cells to extract from the spreadsheet
    * @param imageColumn a non-null string which is column in the spreadsheet that contains the url of the person's image
+   * @throws IOException if something in the dataParser of fileGenerator goes wrong
    */
-  public void run(String url, String range, String imageColumn) {
+  public void run(String url, String range, String imageColumn) throws IOException {
 
     LOGGER.info("Validating input");
     if (!urlValid(url)) {
-      throw new IllegalArgumentException(String.format("URL must contain %s. URL given was= %s", EXPECTED_URL_PREFIX, url));
+      throw new IllegalArgumentException(String.format("URL must contain %s. URL given was= %s",
+              EXPECTED_URL_PREFIX, url));
     }
     if (!validateRange(range)) {
       throw new IllegalArgumentException(String.format("Range is invalid. Range given was=%s", range));
@@ -53,11 +57,14 @@ public class SurveyParser {
               + "Image Column given was=%s", range, imageColumn));
     }
 
-    LOGGER.info("Beginning to retrieve data from spreadsheet={} with range={}");
+    LOGGER.info("Beginning to retrieve data from spreadsheet={} with range={}", url, range);
     List<List<Object>> data = dataParser.retrieveData(url, range);
 
+    int imageIndex = imageColumn.toUpperCase().charAt(0) - range.charAt(RANGE_COLUMN_START_INDEX);
+    LOGGER.info("Picture link is at index={}", imageIndex);
+
     LOGGER.info("Beginning to parse through retrieved data");
-    List<Person> people = dataParser.parseData(data, imageColumn);
+    List<Person> people = dataParser.parseData(data, imageIndex);
 
     LOGGER.info("Beginning to generate files");
     fileGenerator.generateFiles(people);

@@ -24,7 +24,7 @@ import static org.testng.Assert.assertEquals;
 public class DataParserTest {
 
   private static final String SPREADSHEET_ID = "test";
-  private static final String URL = "https://docs.google.com/spreadsheets/" + SPREADSHEET_ID;
+  private static final String URL = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID;
   private static final String DATA_RANGE = "A1:C3";
   private static final int IMAGE_COLUMN = 2;
   private static final String IMAGE_LINK = "picture";

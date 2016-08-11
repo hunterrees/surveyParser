@@ -14,7 +14,7 @@ import static org.mockito.Mockito.*;
 
 public class SurveyParserTest {
 
-  private static final String URL = "https://docs.google.com/spreadsheets/test";
+  private static final String URL = "https://docs.google.com/spreadsheets/d/test";
   private static final String DATA_RANGE = "A1:D3";
   private static final String IMAGE_COLUMN = "C";
   private static final int IMAGE_INDEX = 2;

@@ -91,8 +91,7 @@ class DataParser {
   }
 
   private String getSpreadsheetId(String url) {
-    String[] urlSections = url.split("/");
-    return urlSections[urlSections.length - 1];
+    return url.replace(SurveyParser.EXPECTED_URL_PREFIX,"");
   }
 
   /**

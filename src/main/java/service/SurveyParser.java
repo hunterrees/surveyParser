@@ -16,7 +16,7 @@ public class SurveyParser {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(SurveyParser.class);
 
-  private static final String EXPECTED_URL_PREFIX = "docs.google.com/spreadsheets";
+  static final String EXPECTED_URL_PREFIX = "https://docs.google.com/spreadsheets/d/";
   private static final int RANGE_COLUMN_START_INDEX = 0;
   private static final int RANGE_COLUMN_END_INDEX = 3;
   private static final int RANGE_ROW_START_INDEX = RANGE_COLUMN_START_INDEX + 1;

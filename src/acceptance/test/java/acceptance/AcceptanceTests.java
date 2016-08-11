@@ -18,7 +18,7 @@ public class AcceptanceTests {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(AcceptanceTests.class);
 
-  private static final String URL = "https://docs.google.com/spreadsheets/d/1jahs48xDVd83UR1JNXroe-xkN5CAP0pdiaUqGH0b8rA/edit#gid=120817633";
+  private static final String URL = "https://docs.google.com/spreadsheets/d/1jahs48xDVd83UR1JNXroe-xkN5CAP0pdiaUqGH0b8rA";
   private static final String RANGE = "B1:I3";
   private static final String IMAGE_COLUMN = "D";
 
@@ -53,7 +53,7 @@ public class AcceptanceTests {
     return result.toString();
   }
 
-  @Test
+  @Test (enabled = false)
   public void acceptanceTest() throws IOException {
     LOGGER.info("Starting run of Survey Parser with url={} range={} image_column={}", URL, RANGE, IMAGE_COLUMN);
     surveyParser.run(URL, RANGE, IMAGE_COLUMN);

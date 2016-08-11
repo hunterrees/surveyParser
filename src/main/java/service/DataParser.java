@@ -31,7 +31,7 @@ class DataParser {
   private static final Logger LOGGER = LoggerFactory.getLogger(DataParser.class);
 
   private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
-  private static final String APPLICATION_NAME = "Survey Parser App";
+  private static final String APPLICATION_NAME = "Survey Parser";
   private static final String SECRET_LOCATION = "/client_secret.json";
   private static final String CREDENTIALS_LOCATION = ".credentials/sheets.googleapis.com-java-quickstart.json";
 

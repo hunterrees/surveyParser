@@ -39,7 +39,7 @@ public class SurveyParserTest {
     people = new ArrayList<>();
     data = new ArrayList<>();
 
-    when(dataParser.parseData(data, IMAGE_INDEX )).thenReturn(people);
+    when(dataParser.parseData(data, IMAGE_INDEX)).thenReturn(people);
     when(dataParser.retrieveData(URL, DATA_RANGE)).thenReturn(data);
 
     testModel = new SurveyParser(dataParser, fileGenerator);
@@ -56,7 +56,7 @@ public class SurveyParserTest {
   public void shouldParseRetrievedData() throws IOException {
     testModel.run(URL, DATA_RANGE, IMAGE_COLUMN);
 
-    verify(dataParser).parseData(data, IMAGE_INDEX );
+    verify(dataParser).parseData(data, IMAGE_INDEX);
   }
 
   @Test (expectedExceptions = RuntimeException.class)

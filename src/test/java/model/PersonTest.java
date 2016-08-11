@@ -18,9 +18,10 @@ public class PersonTest {
   private static final String PREFERRED_LOWER_CASE = "first";
   private static final String OR_PREFERRED = "Preferred or Pref";
   private static final String IMAGE_LINK = "image link";
+  private static final String EXPECTED = String.format(Person.FILE_FORMAT, FIRST_NAME, LAST_NAME);
+  private static final String PREFERRED_EXPECTED = String.format(Person.FILE_FORMAT, PREFERRED_DIFFERENT, LAST_NAME);
 
   private Map<String, String> data;
-  private String expected;
 
   private Person testModel;
 
@@ -31,8 +32,6 @@ public class PersonTest {
     data.put(Person.LAST_NAME_KEY, LAST_NAME);
     data.put(Person.PREFERRED_NAME_KEY, PREFERRED_SAME);
 
-    expected = "First Last.html";
-
     testModel = new Person(data, IMAGE_LINK);
   }
 
@@ -40,17 +39,16 @@ public class PersonTest {
   public void shouldReturnCorrectFileName() {
     String result = testModel.getFileName();
 
-    assertEquals(result, expected);
+    assertEquals(result, EXPECTED);
   }
 
   @Test
   public void shouldReturnPreferredNameInFileIfDifferent() {
     data.put(Person.PREFERRED_NAME_KEY, PREFERRED_DIFFERENT);
-    expected = "Preferred Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(result, expected);
+    assertEquals(result, PREFERRED_EXPECTED);
   }
 
   @Test
@@ -59,7 +57,7 @@ public class PersonTest {
 
     String result = testModel.getFileName();
 
-    assertEquals(result, expected);
+    assertEquals(result, EXPECTED);
   }
 
   @Test
@@ -68,7 +66,7 @@ public class PersonTest {
 
     String result = testModel.getFileName();
 
-    assertEquals(result, expected);
+    assertEquals(result, EXPECTED);
   }
 
   @Test
@@ -78,16 +76,15 @@ public class PersonTest {
 
     String result = testModel.getFileName();
 
-    assertEquals(result, expected);
+    assertEquals(result, EXPECTED);
   }
 
   @Test
   public void shouldGenerateCorrectPreferredNameIfOrIsIncluded() {
     data.put(Person.PREFERRED_NAME_KEY, OR_PREFERRED);
-    expected = "Preferred Last.html";
 
     String result = testModel.getFileName();
 
-    assertEquals(result, expected);
+    assertEquals(result, PREFERRED_EXPECTED);
   }
 }

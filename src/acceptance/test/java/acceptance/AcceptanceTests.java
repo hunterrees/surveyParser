@@ -25,8 +25,8 @@ public class AcceptanceTests {
   private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/acceptance/test/resources/testOne.html";
   private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/testTwo.html";
 
-  private static final String FILE_PATH_TEST_ONE_ACTUAL = "studentPages/testOne.html";
-  private static final String FILE_PATH_TEST_TWO_ACTUAL = "studentPages/testTwo.html";
+  private static final String FILE_PATH_TEST_ONE_ACTUAL = "studentPages/Test One.html";
+  private static final String FILE_PATH_TEST_TWO_ACTUAL = "studentPages/Test Two.html";
 
   private String testOneExpected;
   private String testTwoExpected;
@@ -40,6 +40,17 @@ public class AcceptanceTests {
     LOGGER.info("Reading contents of expected files");
     testOneExpected = readData(new File(FILE_PATH_TEST_ONE_EXPECTED));
     testTwoExpected = readData(new File(FILE_PATH_TEST_TWO_EXPECTED));
+  }
+
+  private String readData(File file) throws FileNotFoundException {
+    Scanner scanner = new Scanner(new BufferedReader(new FileReader(file)));
+    StringBuilder result = new StringBuilder();
+
+    while (scanner.hasNext()) {
+      result.append(scanner.next());
+    }
+
+    return result.toString();
   }
 
   @Test
@@ -61,16 +72,4 @@ public class AcceptanceTests {
     String testTwoContents = readData(testTwoActual);
     assertEquals(testTwoExpected, testTwoContents);
   }
-
-  private String readData(File file) throws FileNotFoundException {
-    Scanner scanner = new Scanner(new BufferedReader(new FileReader(file)));
-    StringBuilder result = new StringBuilder();
-
-    while(scanner.hasNext()) {
-      result.append(scanner.next());
-    }
-
-    return result.toString();
-  }
-
 }

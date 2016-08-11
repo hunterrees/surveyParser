@@ -33,14 +33,14 @@ class DataParser {
   private static final List<String> SCOPES = Collections.singletonList(SheetsScopes.SPREADSHEETS_READONLY);
   private static final String APPLICATION_NAME = "Survey Parser App";
   private static final String SECRET_LOCATION = "/client_secret.json";
-  private static final String CREDS_LOCATION = ".credentials/sheets.googleapis.com-java-quickstart.json";
+  private static final String CREDENTIALS_LOCATION = ".credentials/sheets.googleapis.com-java-quickstart.json";
 
   private Sheets retriever;
   private List<String> headers;
 
   DataParser() throws IOException, GeneralSecurityException {
     this(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
-            new FileDataStoreFactory(new java.io.File(System.getProperty("user.home"), CREDS_LOCATION)));
+            new FileDataStoreFactory(new java.io.File(System.getProperty("user.home"), CREDENTIALS_LOCATION)));
   }
 
   DataParser(HttpTransport httpTransport, JsonFactory jsonFactory,
@@ -49,40 +49,8 @@ class DataParser {
   }
 
   /**
-   * Retrieves the data in the given range from the Google Spreadsheet associated with the url.
-   * @param url a non-null string which is the full url path of the Google Spreadsheet
-   * @param range a non-null string which is range of cells to extract from the spreadsheet
-   * @return values from the spreadsheet in the given range
-   * @throws IOException if unable to retrieve data from spreadsheet
-   */
-  List<List<Object>> retrieveData(String url, String range) throws IOException {
-    String spreadsheetId = getSpreadsheetId(url);
-    LOGGER.info("Now attempting to retrieve data from spreadsheet with spreadsheetId={}", spreadsheetId);
-    return retriever.spreadsheets().values().get(spreadsheetId, range).execute().getValues();
-  }
-
-  /**
-   * Parses the list of lists of objects into a list of Person objects.
-   * @param data a non-null list of lists of objects containing the spreadsheet data
-   * @param imageIndex an index which is column in the spreadsheet that contains the url of the person's image
-   * @return list of Person objects
-   */
-  List<Person> parseData(List<List<Object>> data, int imageIndex) {
-    List<Person> people = new ArrayList<>();
-
-    getHeaders(data.get(0));
-
-    for (int i = 1; i < data.size(); i++) {
-      LOGGER.info("Parsing person at index={}", i);
-      people.add(parseOnePerson(data.get(i), imageIndex));
-    }
-    return people;
-  }
-
-  /**
-   *
-   * @param httpTransport HttpTransport used by the Sheet object
-   * @param jsonFactory JsonFactory used by the Sheet object
+   * @param httpTransport    HttpTransport used by the Sheet object
+   * @param jsonFactory      JsonFactory used by the Sheet object
    * @param dataStoreFactory FileDataStoreFactory used by the Sheet object
    * @return an authorized Sheets API client service
    * @throws IOException when unable to create sheets object
@@ -108,15 +76,47 @@ class DataParser {
     return new AuthorizationCodeInstalledApp(codeFlow, new LocalServerReceiver()).authorize("user");
   }
 
+  /**
+   * Retrieves the data in the given range from the Google Spreadsheet associated with the url.
+   *
+   * @param url   a non-null string which is the full url path of the Google Spreadsheet
+   * @param range a non-null string which is range of cells to extract from the spreadsheet
+   * @return values from the spreadsheet in the given range
+   * @throws IOException if unable to retrieve data from spreadsheet
+   */
+  List<List<Object>> retrieveData(String url, String range) throws IOException {
+    String spreadsheetId = getSpreadsheetId(url);
+    LOGGER.info("Now attempting to retrieve data from spreadsheet with spreadsheetId={}", spreadsheetId);
+    return retriever.spreadsheets().values().get(spreadsheetId, range).execute().getValues();
+  }
+
   private String getSpreadsheetId(String url) {
     String[] urlSections = url.split("/");
     return urlSections[urlSections.length - 1];
   }
 
+  /**
+   * Parses the list of lists of objects into a list of Person objects.
+   *
+   * @param data       a non-null list of lists of objects containing the spreadsheet data
+   * @param imageIndex an index which is column in the spreadsheet that contains the url of the person's image
+   * @return list of Person objects
+   */
+  List<Person> parseData(List<List<Object>> data, int imageIndex) {
+    List<Person> people = new ArrayList<>();
+
+    getHeaders(data.get(0));
+
+    for (int i = 1; i < data.size(); i++) {
+      LOGGER.info("Parsing person at index={}", i);
+      people.add(parseOnePerson(data.get(i), imageIndex));
+    }
+    return people;
+  }
+
   private void getHeaders(List<Object> dataToParse) {
     LOGGER.info("Retrieving and parsing headers");
-    headers = new ArrayList<>();
-    headers.addAll(dataToParse.stream().map(Object::toString).collect(Collectors.toList()));
+    headers = dataToParse.stream().map(Object::toString).collect(Collectors.toList());
   }
 
   private Person parseOnePerson(List<Object> dataToParse, int imageIndex) {

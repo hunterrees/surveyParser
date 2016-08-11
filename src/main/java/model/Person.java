@@ -12,6 +12,7 @@ public class Person {
   static final String FIRST_NAME_KEY = "First Name";
   static final String PREFERRED_NAME_KEY = "Preferred First Name";
   static final String SAME = "Same";
+  static final String FILE_FORMAT = "%s %s.html";
 
   private Map<String, String> data;
   private String imageLink;
@@ -22,23 +23,8 @@ public class Person {
   }
 
   /**
-   * Retrieves data responses of the person.
-   * @return data responses
-   */
-  public Map<String, String> getData() {
-    return data;
-  }
-
-  /**
-   * Retrieves image link of the person.
-   * @return image link
-   */
-  public String getImageLink() {
-    return imageLink;
-  }
-
-  /**
    * Generate the file name to be associated with this person (typically first and last name separated by a space).
+   *
    * @return name of file associated with person
    */
   public String getFileName() {
@@ -51,21 +37,18 @@ public class Person {
     String lastName = data.get(LAST_NAME_KEY);
     String preferredName = data.get(PREFERRED_NAME_KEY);
 
-    if (areSame(firstName, preferredName)) {
-      result.append(firstName);
-    }
-    else {
-      result.append(getPreferredName(preferredName));
-    }
-    result.append(" ");
-    result.append(lastName);
-    result.append(".html");
+    result.append(String.format(FILE_FORMAT, getFirstName(firstName, preferredName), lastName));
 
     return result.toString();
   }
 
-  private boolean areSame(String firstName, String preferredName) {
-    return firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME);
+  private String getFirstName(String firstName, String preferredName) {
+    if (firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME)) {
+      return firstName;
+    }
+    else {
+      return getPreferredName(preferredName);
+    }
   }
 
   private String getPreferredName(String preferredName) {
@@ -84,5 +67,23 @@ public class Person {
       result = this.getData().equals(that.getData()) && this.getImageLink().equals(that.getImageLink());
     }
     return result;
+  }
+
+  /**
+   * Retrieves data responses of the person.
+   *
+   * @return data responses
+   */
+  public Map<String, String> getData() {
+    return data;
+  }
+
+  /**
+   * Retrieves image link of the person.
+   *
+   * @return image link
+   */
+  public String getImageLink() {
+    return imageLink;
   }
 }

@@ -37,8 +37,9 @@ public class SurveyParser {
   /**
    * Runs the Survey Parser program.
    * With the given inputs it will generate the files for each person with their given responses.
-   * @param url a non-null string which is the full url path of the Google Spreadsheet
-   * @param range a non-null string which is range of cells to extract from the spreadsheet
+   *
+   * @param url         a non-null string which is the full url path of the Google Spreadsheet
+   * @param range       a non-null string which is range of cells to extract from the spreadsheet
    * @param imageColumn a non-null string which is column in the spreadsheet that contains the url of the person's image
    * @throws IOException if something in the dataParser of fileGenerator goes wrong
    */
@@ -71,7 +72,7 @@ public class SurveyParser {
   }
 
   private boolean urlValid(String url) {
-   return url.contains(EXPECTED_URL_PREFIX);
+    return url.contains(EXPECTED_URL_PREFIX);
   }
 
   private boolean validateRange(String range) {
@@ -80,13 +81,13 @@ public class SurveyParser {
     int beginningRow = range.charAt(RANGE_ROW_START_INDEX);
     int endingRow = range.charAt(RANGE_ROW_END_INDEX);
 
-    return (beginningColumn < endingColumn && beginningRow < endingRow);
+    return beginningColumn < endingColumn && beginningRow < endingRow;
   }
 
   private boolean validateImageColumn(String range, String imageColumn) {
     char beginningColumn = range.charAt(RANGE_COLUMN_START_INDEX);
     char endingColumn = range.charAt(RANGE_COLUMN_END_INDEX);
 
-    return (imageColumn.charAt(0) > beginningColumn && imageColumn.charAt(0) < endingColumn);
+    return imageColumn.charAt(0) > beginningColumn && imageColumn.charAt(0) < endingColumn;
   }
 }

@@ -18,6 +18,7 @@ public class UserInputDialog {
 
   /**
    * Main method for application. Launches the user interface and prompts the user for input.
+   *
    * @param args command line arguments
    */
   public static void main(String args[]) {

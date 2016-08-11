@@ -19,6 +19,7 @@ class FileGenerator {
 
   /**
    * Generates an html file for each person in the list given.
+   *
    * @param people a non-null list of Person objects
    */
   void generateFiles(List<Person> people) {

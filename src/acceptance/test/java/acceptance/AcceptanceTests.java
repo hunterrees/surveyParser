@@ -24,6 +24,7 @@ public class AcceptanceTests {
 
   private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/acceptance/test/resources/testOne.html";
   private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/testTwo.html";
+  private static final String FILE_PATH_FORMATTING_EXPECTED = "src/acceptance/test/resources/style.css";
 
   private static final String FILE_PATH_TEST_ONE_ACTUAL = "studentPages/Test One.html";
   private static final String FILE_PATH_TEST_TWO_ACTUAL = "studentPages/Test Two.html";
@@ -31,6 +32,7 @@ public class AcceptanceTests {
 
   private String testOneExpected;
   private String testTwoExpected;
+  private String testFormattingExpected;
 
   private SurveyParser surveyParser;
 
@@ -41,6 +43,7 @@ public class AcceptanceTests {
     LOGGER.info("Reading contents of expected files");
     testOneExpected = readData(new File(FILE_PATH_TEST_ONE_EXPECTED));
     testTwoExpected = readData(new File(FILE_PATH_TEST_TWO_EXPECTED));
+    testFormattingExpected = readData(new File(FILE_PATH_FORMATTING));
   }
 
   private String readData(File file) throws FileNotFoundException {
@@ -54,7 +57,7 @@ public class AcceptanceTests {
     return result.toString();
   }
 
-  @Test
+  @Test (enabled = false)
   public void acceptanceTest() throws IOException {
     LOGGER.info("Starting run of Survey Parser with url={} range={} image_column={}", URL, RANGE, IMAGE_COLUMN);
     surveyParser.run(URL, RANGE, IMAGE_COLUMN);
@@ -74,5 +77,9 @@ public class AcceptanceTests {
     LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_TEST_TWO_EXPECTED, FILE_PATH_TEST_TWO_ACTUAL);
     String testTwoContents = readData(testTwoActual);
     assertEquals(testTwoExpected, testTwoContents);
+
+    LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_FORMATTING_EXPECTED, FILE_PATH_FORMATTING);
+    String testFormattingContents = readData(testFormatting);
+    assertEquals(testFormattingExpected, testFormattingContents);
   }
 }

@@ -26,7 +26,7 @@ class FileGenerator {
   private static final String TOP_HTML_ENTRIES = "<!DOCTYPE html><html>";
   private static final String HEAD_FORMAT = "<head><title>%s Profile</title>" +
           "<link rel=\"stylesheet\"type=\"text/css\" href=\"%s\"></head>";
-  private static final String TABLE_FORMAT = "<body><table<tr><td><img src=\"%s\"></td>" +
+  private static final String TABLE_FORMAT = "<body><table><tr><td><img src=\"%s\"></td>" +
           "<td><h1>%s</h1></td></tr></table>";
   private static final String ENTRY_FORMAT = "<b>%s:</b>%s<br>";
   private static final String COLON_ENTRY_FORMAT = "<b>%s</b>%s<br>";
@@ -80,7 +80,7 @@ class FileGenerator {
     for (String header : data.keySet()) {
       String entry = data.get(header);
       if (entry.isEmpty() || entry.equalsIgnoreCase("N/A")) {
-        break;
+        continue;
       }
 
       if (header.endsWith(":")) {

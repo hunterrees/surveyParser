@@ -17,6 +17,7 @@ public class SurveyParser {
   private static final Logger LOGGER = LoggerFactory.getLogger(SurveyParser.class);
 
   static final String EXPECTED_URL_PREFIX = "https://docs.google.com/spreadsheets/d/";
+  private static final String INVALID_EDIT = "edit#";
   private static final int RANGE_COLUMN_START_INDEX = 0;
   private static final int RANGE_COLUMN_END_INDEX = 3;
   private static final int RANGE_ROW_START_INDEX = RANGE_COLUMN_START_INDEX + 1;
@@ -50,6 +51,10 @@ public class SurveyParser {
       throw new IllegalArgumentException(String.format("URL must contain %s. URL given was= %s",
               EXPECTED_URL_PREFIX, url));
     }
+    if (urlNotEdit(url)) {
+      throw new IllegalArgumentException(String.format("URL invalid. Please remove everything from \"%s\" " +
+              "to the end of the URL and try again", INVALID_EDIT));
+    }
     if (!validateRange(range)) {
       throw new IllegalArgumentException(String.format("Range is invalid. Range given was=%s", range));
     }
@@ -73,6 +78,10 @@ public class SurveyParser {
 
   private boolean urlValid(String url) {
     return url.contains(EXPECTED_URL_PREFIX);
+  }
+
+  private boolean urlNotEdit(String url) {
+    return url.contains(INVALID_EDIT);
   }
 
   private boolean validateRange(String range) {

@@ -19,6 +19,7 @@ public class SurveyParserTest {
   private static final String IMAGE_COLUMN = "C";
   private static final int IMAGE_INDEX = 2;
   private static final String INVALID_URL = "https://facebook.com";
+  private static final String INVALID_EDIT_URL = URL + "/edit#gid1234";
   private static final String INVALID_COLUMN_RANGE = "D1:A2";
   private static final String INVALID_ROW_RANGE = "A2:B1";
   private static final String INVALID_IMAGE_COLUMN = "E";
@@ -85,5 +86,11 @@ public class SurveyParserTest {
           expectedExceptionsMessageRegExp = ".*Image Column must be within given range.*")
   public void shouldRejectInvalidImageColumn() throws IOException {
     testModel.run(URL, DATA_RANGE, INVALID_IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*URL invalid. Please remove everything from \"edit#\" to the end of the URL and try again.*")
+  public void shouldNotTryToUseEditUrl() throws IOException {
+    testModel.run(INVALID_EDIT_URL, DATA_RANGE, IMAGE_COLUMN);
   }
 }

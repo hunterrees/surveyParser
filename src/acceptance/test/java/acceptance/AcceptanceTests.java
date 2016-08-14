@@ -2,6 +2,7 @@ package acceptance;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import service.SurveyParser;
@@ -26,9 +27,14 @@ public class AcceptanceTests {
   private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/testTwo.html";
   private static final String FILE_PATH_FORMATTING_EXPECTED = "src/acceptance/test/resources/style.css";
 
-  private static final String FILE_PATH_TEST_ONE_ACTUAL = "studentPages/Test One.html";
-  private static final String FILE_PATH_TEST_TWO_ACTUAL = "studentPages/Test Two.html";
-  private static final String FILE_PATH_FORMATTING = "studentPages/style.css";
+  private static final String STUDENT_DIRECTORY = "studentPages";
+  private static final String FILE_NAME_FORMAT = "%s/%s";
+  private static final String FILE_PATH_TEST_ONE_ACTUAL = String.format(FILE_NAME_FORMAT,
+          STUDENT_DIRECTORY, "Test One.html");
+  private static final String FILE_PATH_TEST_TWO_ACTUAL = String.format(FILE_NAME_FORMAT,
+          STUDENT_DIRECTORY, "Test Two.html");
+  private static final String FILE_PATH_FORMATTING = String.format(FILE_NAME_FORMAT,
+          STUDENT_DIRECTORY, "style.css");
 
   private String testOneExpected;
   private String testTwoExpected;
@@ -81,5 +87,26 @@ public class AcceptanceTests {
     LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_FORMATTING_EXPECTED, FILE_PATH_FORMATTING);
     String testFormattingContents = readData(testFormatting);
     assertEquals(testFormattingExpected, testFormattingContents);
+  }
+
+  @AfterClass
+  public void cleanUp() {
+    File testOneActual = new File(FILE_PATH_TEST_ONE_ACTUAL);
+    File testTwoActual = new File(FILE_PATH_TEST_TWO_ACTUAL);
+    File testFormatting = new File(FILE_PATH_FORMATTING);
+    File directory = new File(STUDENT_DIRECTORY);
+
+    if (testOneActual.exists()) {
+      assertTrue(testOneActual.delete());
+    }
+    if (testTwoActual.exists()) {
+      assertTrue(testTwoActual.delete());
+    }
+    if (testFormatting.exists()) {
+      assertTrue(testFormatting.delete());
+    }
+    if (directory.exists()) {
+      assertTrue(directory.delete());
+    }
   }
 }

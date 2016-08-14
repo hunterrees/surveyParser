@@ -26,9 +26,9 @@ public class FileGeneratorTest {
           "type=\"text/css\" href=\"style.css\"></head>";
   private static final String IMAGE_EMBED = "<body><table><tr><td><img src=\"image.org\"></td><td>" +
           "<h1>Test One</h1></td></tr></table>";
-  private static final String ADD_ENTRY = "<b>Test:</b>Test<br>";
-  private static final String BLANK_ENTRY = "<b>Test:</b><br>";
-  private static final String NA_ENTRY = "<b>Test:</b>N/A<br>";
+  private static final String ADD_ENTRY = "<b>Test: </b>Test<br>";
+  private static final String BLANK_ENTRY = "<b>Test: </b><br>";
+  private static final String NA_ENTRY = "<b>Test: </b>N/A<br>";
 
   @Mock
   FileWriter fileWriterOne;

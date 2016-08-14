@@ -33,6 +33,7 @@ public class Person {
 
   /**
    * Gets the name of person (first and last separated by a space).
+   *
    * @return name of person
    */
   public String getName() {

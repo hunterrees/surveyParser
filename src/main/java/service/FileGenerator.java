@@ -19,7 +19,8 @@ class FileGenerator {
 
   private static final String STUDENT_PAGES_FOLDER = "studentPages";
   private static final String CSS_FILE_NAME = "style.css";
-  private static final String CSS_LOCATION = STUDENT_PAGES_FOLDER + "/" + CSS_FILE_NAME;
+  private static final String FILE_NAME_FORMAT = "%s/%s";
+  private static final String CSS_LOCATION = String.format(FILE_NAME_FORMAT, STUDENT_PAGES_FOLDER, CSS_FILE_NAME);
   private static final String REFERENCE_CSS_LOCATION = "src/main/resources/" + CSS_FILE_NAME;
 
   private static final String TOP_HTML_ENTRIES = "<!DOCTYPE html><html>";
@@ -50,7 +51,7 @@ class FileGenerator {
   void generateFiles(List<Person> people) throws IOException {
     LOGGER.info("Creating root file directoy {}", STUDENT_PAGES_FOLDER);
     if (!directory.mkdir() && !directory.exists()) {
-      throw new IOException(String.format("Directory %s was not created successfully",STUDENT_PAGES_FOLDER));
+      throw new IOException(String.format("Directory %s was not created successfully", STUDENT_PAGES_FOLDER));
     }
     writeStyleCssFile();
     for (Person person : people) {
@@ -58,23 +59,22 @@ class FileGenerator {
     }
   }
 
-  /**
-   * Creates a FileWriter to use to write an individual file. Package protected so unit tests can override and mock.
-   * @param fileName name of file to be created
-   * @return FileWriter to use to write to file
-   * @throws IOException if file isn't successfully created
-   */
-  FileWriter getFileWriter(String fileName) throws IOException {
-    return new FileWriter(fileName);
+  private void writeStyleCssFile() throws IOException {
+    String data = getStyleCssData();
+    FileWriter fileWriter = getFileWriter(CSS_LOCATION);
+    LOGGER.info("Writing css file data to file {}", CSS_LOCATION);
+    fileWriter.write(data);
+    fileWriter.close();
   }
 
   private void generateFile(Person person) throws IOException {
-    LOGGER.info("Creating and writing file for {}", person.getName());
-    FileWriter fileWriter = getFileWriter(STUDENT_PAGES_FOLDER + "/" + person.getFileName());
+    String name = person.getName();
+    LOGGER.info("Creating and writing file for {}", name);
+    FileWriter fileWriter = getFileWriter(String.format(FILE_NAME_FORMAT, STUDENT_PAGES_FOLDER, person.getFileName()));
 
     fileWriter.write(TOP_HTML_ENTRIES);
-    fileWriter.write(String.format(HEAD_FORMAT, person.getName(), CSS_FILE_NAME));
-    fileWriter.write(String.format(TABLE_FORMAT, person.getImageLink(), person.getName()));
+    fileWriter.write(String.format(HEAD_FORMAT, name, CSS_FILE_NAME));
+    fileWriter.write(String.format(TABLE_FORMAT, person.getImageLink(), name));
 
     Map<String, String> data = person.getData();
     for (String header : data.keySet()) {
@@ -90,17 +90,9 @@ class FileGenerator {
     fileWriter.write(BOTTOM_HTML_ENTRIES);
   }
 
-
-  private void writeStyleCssFile() throws IOException {
-    String data = getStyleCssData();
-    FileWriter fileWriter = getFileWriter(CSS_LOCATION);
-    LOGGER.info("Writing css file data to file {}", CSS_LOCATION);
-    fileWriter.write(data);
-    fileWriter.close();
-  }
-
   /**
-   * Retrieves the reference style.css data. Since Scanner can't be mocked this is package protected for unit tests.
+   * Retrieves the reference style.css data. Package protected so unit tests can override and mock.
+   *
    * @return Css data
    * @throws IOException if file does not exist
    */
@@ -112,6 +104,17 @@ class FileGenerator {
       result.append(scanner.next());
     }
     return result.toString();
+  }
+
+  /**
+   * Creates a FileWriter to use to write an individual file. Package protected so unit tests can override and mock.
+   *
+   * @param fileName name of file to be created
+   * @return FileWriter to use to write to file
+   * @throws IOException if file isn't successfully created
+   */
+  FileWriter getFileWriter(String fileName) throws IOException {
+    return new FileWriter(fileName);
   }
 
 }

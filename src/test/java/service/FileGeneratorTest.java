@@ -99,14 +99,14 @@ public class FileGeneratorTest {
 
     testModel.generateFiles(people);
   }
-  
+
   @Test (expectedExceptions = RuntimeException.class, expectedExceptionsMessageRegExp = ".*embed image.*")
   public void shouldEmbedImage() throws IOException {
     doThrow(new RuntimeException("embed image")).when(fileWriterOne).write(IMAGE_EMBED);
 
     testModel.generateFiles(people);
   }
-  
+
   @Test
   public void shouldGenerateFileForEachStudent() throws IOException {
     testModel.generateFiles(people);

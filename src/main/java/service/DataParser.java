@@ -49,6 +49,8 @@ class DataParser {
   }
 
   /**
+   * Gets an authorized Google Spreadsheets API Client. Package protected to override and mock in unit tests.
+   *
    * @param httpTransport    HttpTransport used by the Sheet object
    * @param jsonFactory      JsonFactory used by the Sheet object
    * @param dataStoreFactory FileDataStoreFactory used by the Sheet object

@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.testng.Assert.assertEquals;
+import static org.testng.AssertJUnit.assertFalse;
+import static org.testng.AssertJUnit.assertTrue;
 
 
 public class PersonTest {
@@ -96,5 +98,21 @@ public class PersonTest {
     String result = testModel.getFileName();
 
     assertEquals(result, EXPECTED);
+  }
+
+  @Test
+  public void shouldSayPersonObjectsAreEqual() {
+    Person person1 = new Person(data, IMAGE_LINK);
+    Person person2 = new Person(data, IMAGE_LINK);
+
+    assertTrue(person1.equals(person2));
+  }
+
+  @Test
+  public void shouldSayPersonObjectsAreNotEqual() {
+    Person person1 = new Person(data, IMAGE_LINK);
+    Person person2 = new Person(data, "different link");
+
+    assertFalse(person1.equals(person2));
   }
 }

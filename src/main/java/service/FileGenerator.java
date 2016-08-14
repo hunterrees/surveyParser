@@ -79,6 +79,10 @@ class FileGenerator {
     Map<String, String> data = person.getData();
     for (String header : data.keySet()) {
       String entry = data.get(header);
+      if (entry.isEmpty() || entry.equalsIgnoreCase("N/A")) {
+        break;
+      }
+
       if (header.endsWith(":")) {
         fileWriter.write(String.format(COLON_ENTRY_FORMAT, header, entry));
       }
@@ -88,6 +92,7 @@ class FileGenerator {
     }
 
     fileWriter.write(BOTTOM_HTML_ENTRIES);
+    fileWriter.close();
   }
 
   /**

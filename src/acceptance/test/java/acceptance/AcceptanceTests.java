@@ -54,7 +54,7 @@ public class AcceptanceTests {
     return result.toString();
   }
 
-  @Test (enabled = false)
+  @Test
   public void acceptanceTest() throws IOException {
     LOGGER.info("Starting run of Survey Parser with url={} range={} image_column={}", URL, RANGE, IMAGE_COLUMN);
     surveyParser.run(URL, RANGE, IMAGE_COLUMN);

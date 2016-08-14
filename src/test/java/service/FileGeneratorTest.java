@@ -27,6 +27,8 @@ public class FileGeneratorTest {
   private static final String IMAGE_EMBED = "<body><table<tr><td><img src=\"image.org\"></td><td>" +
           "<h1>Test One</h1></td></tr></table>";
   private static final String ADD_ENTRY = "<b>Test:</b>Test<br>";
+  private static final String BLANK_ENTRY = "<b>Test:</b><br>";
+  private static final String NA_ENTRY = "<b>Test:</b>N/A<br>";
 
   @Mock
   FileWriter fileWriterOne;
@@ -129,6 +131,32 @@ public class FileGeneratorTest {
     data.put(Person.GIVEN_FIRST_NAME_KEY, "Test");
     data.put(Person.LAST_NAME_KEY, "One");
     data.put("Test:", "Test");
+    people.add(new Person(data, IMAGE_LINK));
+
+    testModel.generateFiles(people);
+  }
+
+  @Test
+  public void shouldNotAddEntryIfBlank() throws IOException {
+    doThrow(new RuntimeException("add blank entry")).when(fileWriterOne).write(BLANK_ENTRY);
+    List<Person> people = new ArrayList<>();
+    Map<String, String> data = new HashMap<>();
+    data.put(Person.GIVEN_FIRST_NAME_KEY, "Test");
+    data.put(Person.LAST_NAME_KEY, "One");
+    data.put("Test", "");
+    people.add(new Person(data, IMAGE_LINK));
+
+    testModel.generateFiles(people);
+  }
+
+  @Test
+  public void shouldNotAddEntryIfNA() throws IOException {
+    doThrow(new RuntimeException("add N/A entry")).when(fileWriterOne).write(NA_ENTRY);
+    List<Person> people = new ArrayList<>();
+    Map<String, String> data = new HashMap<>();
+    data.put(Person.GIVEN_FIRST_NAME_KEY, "Test");
+    data.put(Person.LAST_NAME_KEY, "One");
+    data.put("Test", "N/A");
     people.add(new Person(data, IMAGE_LINK));
 
     testModel.generateFiles(people);

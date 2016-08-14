@@ -27,6 +27,7 @@ public class AcceptanceTests {
 
   private static final String FILE_PATH_TEST_ONE_ACTUAL = "studentPages/Test One.html";
   private static final String FILE_PATH_TEST_TWO_ACTUAL = "studentPages/Test Two.html";
+  private static final String FILE_PATH_FORMATTING = "studentPages/style.css";
 
   private String testOneExpected;
   private String testTwoExpected;
@@ -60,9 +61,11 @@ public class AcceptanceTests {
 
     File testOneActual = new File(FILE_PATH_TEST_ONE_ACTUAL);
     File testTwoActual = new File(FILE_PATH_TEST_TWO_ACTUAL);
+    File testFormatting = new File(FILE_PATH_FORMATTING);
 
     assertTrue(testOneActual.exists());
     assertTrue(testTwoActual.exists());
+    assertTrue(testFormatting.exists());
 
     LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_TEST_ONE_EXPECTED, FILE_PATH_TEST_ONE_ACTUAL);
     String testOneContents = readData(testOneActual);

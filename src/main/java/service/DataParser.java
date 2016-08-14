@@ -108,8 +108,8 @@ class DataParser {
 
     getHeaders(data.get(0));
 
+    LOGGER.info("Retrieving and parsing data for each person");
     for (int i = 1; i < data.size(); i++) {
-      LOGGER.info("Parsing person at index={}", i);
       people.add(parseOnePerson(data.get(i), imageIndex));
     }
     return people;

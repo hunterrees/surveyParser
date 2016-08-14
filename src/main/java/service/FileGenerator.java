@@ -4,10 +4,12 @@ import model.Person;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
 
 /**
  * Uses the headers generated and a given list of Person objects to create one-page views of each person.
@@ -21,7 +23,18 @@ class FileGenerator {
   private static final String CSS_FILE_NAME = "style.css";
   private static final String FILE_NAME_FORMAT = "%s/%s";
   private static final String CSS_LOCATION = String.format(FILE_NAME_FORMAT, STUDENT_PAGES_FOLDER, CSS_FILE_NAME);
-  private static final String REFERENCE_CSS_LOCATION = "src/main/resources/" + CSS_FILE_NAME;
+
+  private static final String CSS_DATA = "body {\n" +
+          "  background: lightyellow;\n" +
+          "}\n" +
+          "\n" +
+          "img {\n" +
+          "  max-height: 200px;\n" +
+          "  max-width: 200px;\n" +
+          "  padding:0px;\n" +
+          "  border-width:0px;\n" +
+          "  margin:0px;\n" +
+          "}\n";
 
   private static final String TOP_HTML_ENTRIES = "<!DOCTYPE html><html>";
   private static final String HEAD_FORMAT = "<head><title>%s Profile</title>" +
@@ -60,10 +73,9 @@ class FileGenerator {
   }
 
   private void writeStyleCssFile() throws IOException {
-    String data = getStyleCssData();
     FileWriter fileWriter = getFileWriter(CSS_LOCATION);
     LOGGER.info("Writing css file data to file {}", CSS_LOCATION);
-    fileWriter.write(data);
+    fileWriter.write(CSS_DATA);
     fileWriter.close();
   }
 
@@ -95,21 +107,6 @@ class FileGenerator {
     fileWriter.close();
   }
 
-  /**
-   * Retrieves the reference style.css data. Package protected so unit tests can override and mock.
-   *
-   * @return Css data
-   * @throws IOException if file does not exist
-   */
-  String getStyleCssData() throws IOException {
-    LOGGER.info("Reading data from reference css file {}", REFERENCE_CSS_LOCATION);
-    Scanner scanner = new Scanner(new BufferedReader(new FileReader(REFERENCE_CSS_LOCATION)));
-    StringBuilder result = new StringBuilder();
-    while (scanner.hasNext()) {
-      result.append(scanner.next());
-    }
-    return result.toString();
-  }
 
   /**
    * Creates a FileWriter to use to write an individual file. Package protected so unit tests can override and mock.

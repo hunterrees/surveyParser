@@ -3,9 +3,9 @@ body {
 }
 
 img {
-  max-height: 200;
-  max-width: 200;
-  padding:0;
-  border-width:0;
-  margin:0;
+  max-height: 200px;
+  max-width: 200px;
+  padding:0px;
+  border-width:0px;
+  margin:0px;
 }

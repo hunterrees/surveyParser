@@ -44,6 +44,7 @@ public class AcceptanceTests {
 
   @BeforeClass
   public void setUp() throws IOException, GeneralSecurityException {
+    cleanUp();
     surveyParser = new SurveyParser();
 
     LOGGER.info("Reading contents of expected files");
@@ -90,7 +91,11 @@ public class AcceptanceTests {
   }
 
   @AfterClass
-  public void cleanUp() {
+  public void tearDown() {
+    cleanUp();
+  }
+
+  private void cleanUp() {
     File testOneActual = new File(FILE_PATH_TEST_ONE_ACTUAL);
     File testTwoActual = new File(FILE_PATH_TEST_TWO_ACTUAL);
     File testFormatting = new File(FILE_PATH_FORMATTING);

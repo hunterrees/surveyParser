@@ -80,11 +80,6 @@ public class FileGeneratorTest {
             return null;
         }
       }
-
-      @Override
-      String getStyleCssData() throws IOException {
-        return "test";
-      }
     };
   }
 

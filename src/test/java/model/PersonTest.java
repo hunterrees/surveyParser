@@ -18,8 +18,9 @@ public class PersonTest {
   private static final String PREFERRED_LOWER_CASE = "first";
   private static final String OR_PREFERRED = "Preferred or Pref";
   private static final String IMAGE_LINK = "image link";
-  private static final String EXPECTED = String.format(Person.FILE_FORMAT, FIRST_NAME, LAST_NAME);
-  private static final String PREFERRED_EXPECTED = String.format(Person.FILE_FORMAT, PREFERRED_DIFFERENT, LAST_NAME);
+  private static final String EXPECTED = String.format(Person.NAME_FORMAT, FIRST_NAME, LAST_NAME) + ".html";
+  private static final String PREFERRED_EXPECTED = String.format(Person.NAME_FORMAT,
+          PREFERRED_DIFFERENT, LAST_NAME) + ".html";
 
   private Map<String, String> data;
 
@@ -86,5 +87,14 @@ public class PersonTest {
     String result = testModel.getFileName();
 
     assertEquals(result, PREFERRED_EXPECTED);
+  }
+
+  @Test
+  public void shouldGenerateCorrectNameIfPreferredIsNull() {
+    data.remove(Person.PREFERRED_NAME_KEY);
+
+    String result = testModel.getFileName();
+
+    assertEquals(result, EXPECTED);
   }
 }

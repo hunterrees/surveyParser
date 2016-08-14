@@ -12,7 +12,7 @@ public class Person {
   static final String FIRST_NAME_KEY = "First Name";
   static final String PREFERRED_NAME_KEY = "Preferred First Name";
   static final String SAME = "Same";
-  static final String FILE_FORMAT = "%s %s.html";
+  static final String NAME_FORMAT = "%s %s";
 
   private Map<String, String> data;
   private String imageLink;
@@ -28,6 +28,14 @@ public class Person {
    * @return name of file associated with person
    */
   public String getFileName() {
+    return getName() + ".html";
+  }
+
+  /**
+   * Gets the name of person (first and last separated by a space).
+   * @return name of person
+   */
+  public String getName() {
     StringBuilder result = new StringBuilder();
 
     String firstName = data.get(GIVEN_FIRST_NAME_KEY);
@@ -37,13 +45,13 @@ public class Person {
     String lastName = data.get(LAST_NAME_KEY);
     String preferredName = data.get(PREFERRED_NAME_KEY);
 
-    result.append(String.format(FILE_FORMAT, getFirstName(firstName, preferredName), lastName));
+    result.append(String.format(NAME_FORMAT, getFirstName(firstName, preferredName), lastName));
 
     return result.toString();
   }
 
   private String getFirstName(String firstName, String preferredName) {
-    if (firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME)) {
+    if (preferredName == null || firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME)) {
       return firstName;
     }
     else {

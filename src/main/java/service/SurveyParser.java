@@ -22,6 +22,7 @@ public class SurveyParser {
   private static final int RANGE_COLUMN_END_INDEX = 3;
   private static final int RANGE_ROW_START_INDEX = RANGE_COLUMN_START_INDEX + 1;
   private static final int RANGE_ROW_END_INDEX = RANGE_COLUMN_END_INDEX + 1;
+  private static final int VERY_LONG_RANGE_LENGTH = 6;
 
   private DataParser dataParser;
   private FileGenerator fileGenerator;
@@ -47,6 +48,23 @@ public class SurveyParser {
   public void run(String url, String range, String imageColumn) throws IOException {
 
     LOGGER.info("Validating input");
+
+    validateInput(url, range, imageColumn);
+
+    LOGGER.info("Beginning to retrieve data from spreadsheet={} with range={}", url, range);
+    List<List<Object>> data = dataParser.retrieveData(url, range);
+
+    int imageIndex = imageColumn.toUpperCase().charAt(0) - range.charAt(RANGE_COLUMN_START_INDEX);
+    LOGGER.info("Picture link is at index={}", imageIndex);
+
+    LOGGER.info("Beginning to parse through retrieved data");
+    List<Person> people = dataParser.parseData(data, imageIndex);
+
+    LOGGER.info("Beginning to generate files");
+    fileGenerator.generateFiles(people);
+  }
+
+  private void validateInput(String url, String range, String imageColumn) {
     if (!urlValid(url)) {
       throw new IllegalArgumentException(String.format("URL must contain %s. URL given was= %s",
               EXPECTED_URL_PREFIX, url));
@@ -62,18 +80,6 @@ public class SurveyParser {
       throw new IllegalArgumentException(String.format("Image Column must be within given range. Range given was=%s. "
               + "Image Column given was=%s", range, imageColumn));
     }
-
-    LOGGER.info("Beginning to retrieve data from spreadsheet={} with range={}", url, range);
-    List<List<Object>> data = dataParser.retrieveData(url, range);
-
-    int imageIndex = imageColumn.toUpperCase().charAt(0) - range.charAt(RANGE_COLUMN_START_INDEX);
-    LOGGER.info("Picture link is at index={}", imageIndex);
-
-    LOGGER.info("Beginning to parse through retrieved data");
-    List<Person> people = dataParser.parseData(data, imageIndex);
-
-    LOGGER.info("Beginning to generate files");
-    fileGenerator.generateFiles(people);
   }
 
   private boolean urlValid(String url) {
@@ -90,13 +96,14 @@ public class SurveyParser {
     int beginningRow = range.charAt(RANGE_ROW_START_INDEX);
     int endingRow = range.charAt(RANGE_ROW_END_INDEX);
 
-    return beginningColumn < endingColumn && beginningRow < endingRow;
+    return (beginningColumn < endingColumn && beginningRow < endingRow) || range.length() >= VERY_LONG_RANGE_LENGTH ;
   }
 
   private boolean validateImageColumn(String range, String imageColumn) {
     char beginningColumn = range.charAt(RANGE_COLUMN_START_INDEX);
     char endingColumn = range.charAt(RANGE_COLUMN_END_INDEX);
 
-    return imageColumn.charAt(0) > beginningColumn && imageColumn.charAt(0) < endingColumn;
+    return (imageColumn.charAt(0) > beginningColumn && imageColumn.charAt(0) < endingColumn)
+            || range.length() >= VERY_LONG_RANGE_LENGTH;
   }
 }

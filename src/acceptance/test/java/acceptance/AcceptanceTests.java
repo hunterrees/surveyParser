@@ -43,7 +43,7 @@ public class AcceptanceTests {
     LOGGER.info("Reading contents of expected files");
     testOneExpected = readData(new File(FILE_PATH_TEST_ONE_EXPECTED));
     testTwoExpected = readData(new File(FILE_PATH_TEST_TWO_EXPECTED));
-    testFormattingExpected = readData(new File(FILE_PATH_FORMATTING));
+    testFormattingExpected = readData(new File(FILE_PATH_FORMATTING_EXPECTED));
   }
 
   private String readData(File file) throws FileNotFoundException {
@@ -57,7 +57,7 @@ public class AcceptanceTests {
     return result.toString();
   }
 
-  @Test (enabled = false)
+  @Test
   public void acceptanceTest() throws IOException {
     LOGGER.info("Starting run of Survey Parser with url={} range={} image_column={}", URL, RANGE, IMAGE_COLUMN);
     surveyParser.run(URL, RANGE, IMAGE_COLUMN);

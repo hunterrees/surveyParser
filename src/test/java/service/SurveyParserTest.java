@@ -23,6 +23,7 @@ public class SurveyParserTest {
   private static final String INVALID_COLUMN_RANGE = "D1:A2";
   private static final String INVALID_ROW_RANGE = "A2:B1";
   private static final String INVALID_IMAGE_COLUMN = "E";
+  private static final String LARGE_DATA_RANGE = "C1:BB2";
 
   @Mock
   private DataParser dataParser;
@@ -92,5 +93,10 @@ public class SurveyParserTest {
           expectedExceptionsMessageRegExp = ".*URL invalid. Please remove everything from \"edit#\" to the end of the URL and try again.*")
   public void shouldNotTryToUseEditUrl() throws IOException {
     testModel.run(INVALID_EDIT_URL, DATA_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test
+  public void shouldAllowLargeCellRange() throws IOException {
+    testModel.run(URL, LARGE_DATA_RANGE, IMAGE_COLUMN);
   }
 }

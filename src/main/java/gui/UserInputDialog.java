@@ -5,20 +5,31 @@ import org.slf4j.LoggerFactory;
 import service.SurveyParser;
 
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 
 /**
  * Client class for application. User interacts with this class to input data to download and parse spreadsheet data.
  */
-public class UserInputDialog {
+public class UserInputDialog extends JFrame {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(UserInputDialog.class);
 
-  private static JPanel dialog;
+  private static final Color BACKGROUND_COLOR = new Color(178, 178, 178);
+  private static final Point WINDOW_LOCATION = new Point(300, 350);
+  private static UserInputDialog frame;
 
-  public UserInputDialog() throws IOException, GeneralSecurityException {
+  private UserInputDialog() {
+    this.setTitle("Survey Parser Application");
+    this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+    this.setBackground(BACKGROUND_COLOR);
+    this.setResizable(false);
+    this.setLocation(WINDOW_LOCATION);
 
+    this.add(new UserInputComponent());
+    this.pack();
+    this.setVisible(true);
   }
 
   /**
@@ -28,13 +39,24 @@ public class UserInputDialog {
    */
   public static void main(String args[]) throws IOException, GeneralSecurityException {
     if (args.length > 0) {
+      LOGGER.info("Command line arguments found: {}", args);
       String url = args[0];
       String range = args[1];
       String imageColumn = args[2];
       new SurveyParser().run(url, range, imageColumn);
     }
     else {
-      //start up UI
+      LOGGER.info("No command line arguments found. Opening up User Input Dialog Window.");
+      frame = new UserInputDialog();
     }
+  }
+
+  /**
+   * Gets the JFrame. Used when creating JOptionPane windows for errors.
+   *
+   * @return Parent component frame (UserInputDialog)
+   */
+  static JFrame getFrame() {
+    return frame;
   }
 }

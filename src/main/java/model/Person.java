@@ -61,6 +61,10 @@ public class Person {
   }
 
   private String getPreferredName(String preferredName) {
+    if (preferredName.contains("/")) {
+      return preferredName.split("/")[0];
+    }
+
     int indexOfOr = preferredName.indexOf("or");
     if (indexOfOr != -1) {
       preferredName = preferredName.substring(0, indexOfOr).trim();

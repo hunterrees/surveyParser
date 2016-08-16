@@ -19,6 +19,7 @@ public class PersonTest {
   private static final String PREFERRED_DIFFERENT = "Preferred";
   private static final String PREFERRED_LOWER_CASE = "first";
   private static final String OR_PREFERRED = "Preferred or Pref";
+  private static final String SLASH_PREFERRED = "Preferred/Pref";
   private static final String IMAGE_LINK = "image link";
   private static final String EXPECTED = String.format(Person.NAME_FORMAT, FIRST_NAME, LAST_NAME) + ".html";
   private static final String PREFERRED_EXPECTED = String.format(Person.NAME_FORMAT,
@@ -114,5 +115,14 @@ public class PersonTest {
     Person person2 = new Person(data, "different link");
 
     assertFalse(person1.equals(person2));
+  }
+
+  @Test
+  public void shouldGenerateCorrectNameIfPreferredHasASlash() {
+    data.put(Person.PREFERRED_NAME_KEY, SLASH_PREFERRED);
+
+    String result = testModel.getFileName();
+
+    assertEquals(result, PREFERRED_EXPECTED);
   }
 }

@@ -85,6 +85,10 @@ class UserInputComponent extends JPanel {
 
       try {
         new SurveyParser().run(url, range, imageColumn);
+        JOptionPane.showMessageDialog(UserInputDialog.getFrame(),
+                "Finished generating files",
+                "Success",
+                JOptionPane.INFORMATION_MESSAGE);
       }
       catch (IllegalArgumentException illegalArgumentException) {
         LOGGER.info("User input error: {}", illegalArgumentException.getMessage());

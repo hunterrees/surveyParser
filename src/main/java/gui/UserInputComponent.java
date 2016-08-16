@@ -6,6 +6,8 @@ import service.SurveyParser;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Component of the UI that contains all of the input fields and buttons.
@@ -106,7 +108,17 @@ class UserInputComponent extends JPanel {
       }
     });
 
+    JButton exitButton = new JButton("Exit");
+    exitButton.addActionListener(new ActionListener() {
+      @Override
+      public void actionPerformed(ActionEvent e) {
+        System.exit(0);
+      }
+    });
+
     buttonPanel.add(submitButton);
+    buttonPanel.add(Box.createRigidArea(HORIZONTAL_BUFFER));
+    buttonPanel.add(exitButton);
     buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
     this.add(buttonPanel);
   }

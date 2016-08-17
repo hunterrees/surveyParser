@@ -18,10 +18,11 @@ public class UserInputDialog extends JFrame {
 
   private static final Color BACKGROUND_COLOR = new Color(178, 178, 178);
   private static final Point WINDOW_LOCATION = new Point(300, 350);
+  private static final String TITLE = "Survey Parser Application";
   private static UserInputDialog frame;
 
   private UserInputDialog() {
-    this.setTitle("Survey Parser Application");
+    this.setTitle(TITLE);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setBackground(BACKGROUND_COLOR);
     this.setResizable(false);
@@ -36,6 +37,8 @@ public class UserInputDialog extends JFrame {
    * Main method for application. Launches the user interface and prompts the user for input.
    *
    * @param args command line arguments
+   * @throws IOException if files aren't found properly (only when run from CLI)
+   * @throws GeneralSecurityException if there is a security error (only when run from CLI)
    */
   public static void main(String args[]) throws IOException, GeneralSecurityException {
     if (args.length > 0) {
@@ -52,7 +55,7 @@ public class UserInputDialog extends JFrame {
   }
 
   /**
-   * Gets the JFrame. Used when creating JOptionPane windows for errors.
+   * Gets the JFrame. Used when creating JOptionPane windows for errors and information.
    *
    * @return Parent component frame (UserInputDialog)
    */

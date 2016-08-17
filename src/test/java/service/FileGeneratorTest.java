@@ -170,4 +170,13 @@ public class FileGeneratorTest {
 
     testModel.generateFiles(people);
   }
+
+  @Test (expectedExceptions = IOException.class,
+          expectedExceptionsMessageRegExp = ".*Directory studentPages was not created successfully.*")
+  public void shouldThrowExceptionIfDirectoryIsNotCreatedSuccessfully() throws IOException {
+    when(directory.mkdir()).thenReturn(false);
+    when(directory.exists()).thenReturn(false);
+
+    testModel.generateFiles(people);
+  }
 }

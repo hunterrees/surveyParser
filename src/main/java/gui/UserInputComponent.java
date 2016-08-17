@@ -6,8 +6,6 @@ import service.SurveyParser;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * Component of the UI that contains all of the input fields and buttons.
@@ -29,6 +27,9 @@ class UserInputComponent extends JPanel {
   private JTextField rangeInput;
   private JTextField imageColumnInput;
 
+  /**
+   * Constructor that builds a UserInputComponent with all associated panels.
+   */
   UserInputComponent() {
     urlPanel = new JPanel();
     rangePanel = new JPanel();
@@ -87,6 +88,7 @@ class UserInputComponent extends JPanel {
 
       try {
         new SurveyParser().run(url, range, imageColumn);
+        LOGGER.info("Successful run of Survey Parser.");
         JOptionPane.showMessageDialog(UserInputDialog.getFrame(),
                 "Finished generating files",
                 "Success",
@@ -110,11 +112,9 @@ class UserInputComponent extends JPanel {
     });
 
     JButton exitButton = new JButton("Exit");
-    exitButton.addActionListener(new ActionListener() {
-      @Override
-      public void actionPerformed(ActionEvent e) {
-        System.exit(0);
-      }
+    exitButton.addActionListener(e -> {
+      LOGGER.info("Exiting system.");
+      System.exit(0);
     });
 
     buttonPanel.add(submitButton);

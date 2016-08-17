@@ -17,6 +17,11 @@ public class Person {
   private Map<String, String> data;
   private String imageLink;
 
+  /**
+   * Constructor that takes in all given fields
+   * @param data non-null Map which contains data responses of the person
+   * @param imageLink non-null String which contains image link of the person
+   */
   public Person(Map<String, String> data, String imageLink) {
     this.data = data;
     this.imageLink = imageLink;
@@ -72,6 +77,12 @@ public class Person {
     return preferredName;
   }
 
+  /**
+   * Compares to Person objects based on data responses and image link.
+   *
+   * @param o Object to compare against
+   * @return if two objects are equal
+   */
   @Override
   public boolean equals(Object o) {
     boolean result = false;

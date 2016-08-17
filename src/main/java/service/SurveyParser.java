@@ -30,10 +30,22 @@ public class SurveyParser {
   private String range;
   private String imageColumn;
 
+  /**
+   * Default Constructor.
+   *
+   * @throws IOException if files aren't found properly
+    * @throws GeneralSecurityException if there is a security error
+   */
   public SurveyParser() throws IOException, GeneralSecurityException {
     this(new DataParser(), new FileGenerator());
   }
 
+  /**
+   * Constructor used only for unit testing.
+   *
+   * @param dataParser non-null DataParser to use to retrieve and parse spreadsheet data
+   * @param fileGenerator non-null FileGenerator to use to generate student files
+   */
   SurveyParser(DataParser dataParser, FileGenerator fileGenerator) {
     this.dataParser = dataParser;
     this.fileGenerator = fileGenerator;
@@ -43,9 +55,9 @@ public class SurveyParser {
    * Runs the Survey Parser program.
    * With the given inputs it will generate the files for each person with their given responses.
    *
-   * @param url         a non-null string which is the full url path of the Google Spreadsheet
-   * @param range       a non-null string which is range of cells to extract from the spreadsheet
-   * @param imageColumn a non-null string which is column in the spreadsheet that contains the url of the person's image
+   * @param url         non-null string which is the full url path of the Google Spreadsheet
+   * @param range       non-null string which is range of cells to extract from the spreadsheet
+   * @param imageColumn non-null string which is column in the spreadsheet that contains the url of the person's image
    * @throws IOException if something in the dataParser of fileGenerator goes wrong
    */
   public void run(String url, String range, String imageColumn) throws IOException {

@@ -39,11 +39,25 @@ class DataParser {
   private final Sheets retriever;
   private List<String> headers;
 
+  /**
+   * Default Constructor.
+   *
+   * @throws IOException if files aren't found properly
+   * @throws GeneralSecurityException if there is a security error
+   */
   DataParser() throws IOException, GeneralSecurityException {
     this(GoogleNetHttpTransport.newTrustedTransport(), JacksonFactory.getDefaultInstance(),
             new FileDataStoreFactory(new java.io.File(System.getProperty("user.home"), CREDENTIALS_LOCATION)));
   }
 
+  /**
+   * Constructor used only for unit testing.
+   *
+   * @param httpTransport    HttpTransport used by the Sheet object
+   * @param jsonFactory      JsonFactory used by the Sheet object
+   * @param dataStoreFactory FileDataStoreFactory used by the Sheet object
+   * @throws IOException if files aren't found properly
+   */
   DataParser(HttpTransport httpTransport, JsonFactory jsonFactory,
              FileDataStoreFactory dataStoreFactory) throws IOException {
     retriever = getSheets(httpTransport, jsonFactory, dataStoreFactory);

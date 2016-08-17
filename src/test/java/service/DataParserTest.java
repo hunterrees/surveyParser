@@ -57,8 +57,8 @@ public class DataParserTest {
     data = new ArrayList<>();
 
     List<Object> headers = new ArrayList<>();
-    headers.add("Given First Name");
-    headers.add("Last Name");
+    headers.add(Person.GIVEN_FIRST_NAME_KEY);
+    headers.add(Person.LAST_NAME_KEY);
     headers.add("Link to Picture");
 
     List<Object> innerData1 = new ArrayList<>();

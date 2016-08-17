@@ -47,10 +47,20 @@ class FileGenerator {
 
   private final File directory;
 
+  /**
+   * Default Constructor.
+   *
+   * @throws FileNotFoundException if directory can't be found
+   */
   FileGenerator() throws FileNotFoundException {
     this(new File(STUDENT_PAGES_FOLDER));
   }
 
+  /**
+   * Constructor used only for unit testing.
+   *
+   * @param directory non-null File which is the directory the student files should be placed in
+   */
   FileGenerator(File directory) {
     this.directory = directory;
   }

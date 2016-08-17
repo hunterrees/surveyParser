@@ -21,9 +21,10 @@ public class PersonTest {
   private static final String OR_PREFERRED = "Preferred or Pref";
   private static final String SLASH_PREFERRED = "Preferred/Pref";
   private static final String IMAGE_LINK = "image link";
+  private static final String DIFFERENT_IMAGE_LINK = "different link";
   private static final String EXPECTED = String.format(Person.NAME_FORMAT, FIRST_NAME, LAST_NAME) + ".html";
-  private static final String PREFERRED_EXPECTED = String.format(Person.NAME_FORMAT,
-          PREFERRED_DIFFERENT, LAST_NAME) + ".html";
+  private static final String PREFERRED_EXPECTED =
+          String.format(Person.NAME_FORMAT, PREFERRED_DIFFERENT, LAST_NAME) + ".html";
 
   private Map<String, String> data;
 
@@ -112,7 +113,7 @@ public class PersonTest {
   @Test
   public void shouldSayPersonObjectsAreNotEqual() {
     Person person1 = new Person(data, IMAGE_LINK);
-    Person person2 = new Person(data, "different link");
+    Person person2 = new Person(data, DIFFERENT_IMAGE_LINK);
 
     assertFalse(person1.equals(person2));
   }

@@ -98,4 +98,40 @@ public class SurveyParserTest {
   public void shouldAllowLargeCellRange() throws IOException {
     testModel.run(URL, LARGE_DATA_RANGE, IMAGE_COLUMN);
   }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*Must give a value for URL.*")
+  public void shouldRejectBlankUrl() throws IOException {
+    testModel.run("", DATA_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*Must give a value for Range.*")
+  public void shouldRejectBlankRange() throws IOException {
+    testModel.run(URL, "", IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*Must give a value for Image Column.*")
+  public void shouldRejectBlankImageColumn() throws IOException {
+    testModel.run(URL, DATA_RANGE, "");
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*Must give a value for URL.*")
+  public void shouldRejectNullUrl() throws IOException {
+    testModel.run(null, DATA_RANGE, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*Must give a value for Range.*")
+  public void shouldRejectNullRange() throws IOException {
+    testModel.run(URL, null, IMAGE_COLUMN);
+  }
+
+  @Test (expectedExceptions = IllegalArgumentException.class,
+          expectedExceptionsMessageRegExp = ".*Must give a value for Image Column.*")
+  public void shouldRejectNullImageColumn() throws IOException {
+    testModel.run(URL, DATA_RANGE, null);
+  }
 }

@@ -39,7 +39,7 @@ public class UserInputDialog extends JFrame {
    */
   public static void main(String args[]) throws IOException, GeneralSecurityException {
     if (args.length > 0) {
-      LOGGER.info("Command line arguments found: {}", args);
+      LOGGER.info("Command line arguments found: {}", (Object[]) args);
       String url = args[0];
       String range = args[1];
       String imageColumn = args[2];

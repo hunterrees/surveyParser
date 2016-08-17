@@ -45,7 +45,7 @@ class FileGenerator {
   private static final String COLON_ENTRY_FORMAT = "<b>%s </b>%s<br>";
   private static final String BOTTOM_HTML_ENTRIES = "</body></html>";
 
-  private File directory;
+  private final File directory;
 
   FileGenerator() throws FileNotFoundException {
     this(new File(STUDENT_PAGES_FOLDER));

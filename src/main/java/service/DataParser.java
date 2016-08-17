@@ -36,7 +36,7 @@ class DataParser {
   private static final String CREDENTIALS_LOCATION = ".credentials/sheets.googleapis.com-java-quickstart.json";
   private static final String EDIT_URL = "/edit#";
 
-  private Sheets retriever;
+  private final Sheets retriever;
   private List<String> headers;
 
   DataParser() throws IOException, GeneralSecurityException {

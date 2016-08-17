@@ -91,6 +91,7 @@ class UserInputComponent extends JPanel {
                 "Finished generating files",
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE);
+        System.exit(0);
       }
       catch (IllegalArgumentException illegalArgumentException) {
         LOGGER.info("User input error: {}", illegalArgumentException.getMessage());

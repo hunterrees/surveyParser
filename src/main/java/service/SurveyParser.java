@@ -23,8 +23,12 @@ public class SurveyParser {
   private static final int RANGE_ROW_END_INDEX = RANGE_COLUMN_END_INDEX + 1;
   private static final int VERY_LONG_RANGE_LENGTH = 6;
 
-  private DataParser dataParser;
-  private FileGenerator fileGenerator;
+  private final DataParser dataParser;
+  private final FileGenerator fileGenerator;
+
+  private String url;
+  private String range;
+  private String imageColumn;
 
   public SurveyParser() throws IOException, GeneralSecurityException {
     this(new DataParser(), new FileGenerator());
@@ -45,10 +49,13 @@ public class SurveyParser {
    * @throws IOException if something in the dataParser of fileGenerator goes wrong
    */
   public void run(String url, String range, String imageColumn) throws IOException {
+    this.url = url;
+    this.range = range;
+    this.imageColumn = imageColumn;
 
     LOGGER.info("Validating input");
 
-    validateInput(url, range, imageColumn);
+    validateInput();
 
     LOGGER.info("Beginning to retrieve data from spreadsheet={} with range={}", url, range);
     List<List<Object>> data = dataParser.retrieveData(url, range);
@@ -63,38 +70,57 @@ public class SurveyParser {
     fileGenerator.generateFiles(people);
   }
 
-  private void validateInput(String url, String range, String imageColumn) {
-    if (!urlValid(url)) {
+  private void validateInput() {
+    checkFieldsNotEmpty();
+    validateUrl();
+    validateRange();
+    validateImageColumn();
+  }
+
+  private void checkFieldsNotEmpty() {
+    if (fieldBlank(url)) {
+      throw new IllegalArgumentException("Must give a value for URL");
+    }
+    if (fieldBlank(range)) {
+      throw new IllegalArgumentException("Must give a value for Range");
+    }
+    if (fieldBlank(imageColumn)) {
+      throw new IllegalArgumentException("Must give a value for Image Column");
+    }
+    range = range.toUpperCase();
+    imageColumn = imageColumn.toUpperCase();
+  }
+
+  private boolean fieldBlank(String field) {
+    return field == null || field.isEmpty();
+  }
+
+  private void validateUrl() {
+    if (!url.contains(EXPECTED_URL_PREFIX)) {
       throw new IllegalArgumentException(String.format("URL must contain %s. URL given was= %s",
               EXPECTED_URL_PREFIX, url));
     }
-    if (!validateRange(range)) {
-      throw new IllegalArgumentException(String.format("Range is invalid. Range given was=%s", range));
-    }
-    if (!validateImageColumn(range, imageColumn)) {
-      throw new IllegalArgumentException(String.format("Image Column must be within given range. Range given was=%s. "
-              + "Image Column given was=%s", range, imageColumn));
-    }
   }
 
-  private boolean urlValid(String url) {
-    return url.contains(EXPECTED_URL_PREFIX);
-  }
-
-  private boolean validateRange(String range) {
+  private void validateRange() {
     char beginningColumn = range.charAt(RANGE_COLUMN_START_INDEX);
     char endingColumn = range.charAt(RANGE_COLUMN_END_INDEX);
     int beginningRow = range.charAt(RANGE_ROW_START_INDEX);
     int endingRow = range.charAt(RANGE_ROW_END_INDEX);
 
-    return (beginningColumn < endingColumn && beginningRow < endingRow) || range.length() >= VERY_LONG_RANGE_LENGTH ;
+    if (!((beginningColumn < endingColumn && beginningRow < endingRow) || range.length() >= VERY_LONG_RANGE_LENGTH)) {
+      throw new IllegalArgumentException(String.format("Range is invalid. Range given was=%s", range));
+    }
   }
 
-  private boolean validateImageColumn(String range, String imageColumn) {
+  private void validateImageColumn() {
     char beginningColumn = range.charAt(RANGE_COLUMN_START_INDEX);
     char endingColumn = range.charAt(RANGE_COLUMN_END_INDEX);
 
-    return (imageColumn.charAt(0) > beginningColumn && imageColumn.charAt(0) < endingColumn)
-            || range.length() >= VERY_LONG_RANGE_LENGTH;
+    if (!((imageColumn.charAt(0) > beginningColumn && imageColumn.charAt(0) < endingColumn)
+            || range.length() >= VERY_LONG_RANGE_LENGTH)) {
+      throw new IllegalArgumentException(String.format("Image Column must be within given range. Range given was=%s. "
+              + "Image Column given was=%s", range, imageColumn));
+    }
   }
 }

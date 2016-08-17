@@ -34,7 +34,7 @@ class DataParser {
   private static final String APPLICATION_NAME = "Survey Parser";
   private static final String SECRET_LOCATION = "/client_secret.json";
   private static final String CREDENTIALS_LOCATION = ".credentials/sheets.googleapis.com-java-quickstart.json";
-  private static final String EDIT_URL = "/edit#";
+  private static final String EDIT_URL = "/edit";
 
   private final Sheets retriever;
   private List<String> headers;

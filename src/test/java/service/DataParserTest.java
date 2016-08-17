@@ -25,6 +25,7 @@ public class DataParserTest {
 
   private static final String SPREADSHEET_ID = "test";
   private static final String URL = "https://docs.google.com/spreadsheets/d/" + SPREADSHEET_ID;
+  private static final String EDIT_URL = URL + "/edit#gid1234";
   private static final String DATA_RANGE = "A1:C3";
   private static final int IMAGE_COLUMN = 2;
   private static final String IMAGE_LINK = "picture";
@@ -122,5 +123,12 @@ public class DataParserTest {
     List<Person> result = testModel.parseData(data, IMAGE_COLUMN);
 
     assertEquals(result, people);
+  }
+
+  @Test
+  public void shouldHandleEditUrlCorrectly() throws IOException {
+    testModel.retrieveData(EDIT_URL, DATA_RANGE);
+
+    verify(values).get(SPREADSHEET_ID, DATA_RANGE);
   }
 }

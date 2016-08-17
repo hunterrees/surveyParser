@@ -34,6 +34,7 @@ class DataParser {
   private static final String APPLICATION_NAME = "Survey Parser";
   private static final String SECRET_LOCATION = "/client_secret.json";
   private static final String CREDENTIALS_LOCATION = ".credentials/sheets.googleapis.com-java-quickstart.json";
+  private static final String EDIT_URL = "/edit#";
 
   private Sheets retriever;
   private List<String> headers;
@@ -93,7 +94,12 @@ class DataParser {
   }
 
   private String getSpreadsheetId(String url) {
-    return url.replace(SurveyParser.EXPECTED_URL_PREFIX, "").replace("/", "");
+    String result = url;
+    int editIndex = result.indexOf(EDIT_URL);
+    if (editIndex != -1) {
+      result = result.substring(0, editIndex);
+    }
+    return result.replace(SurveyParser.EXPECTED_URL_PREFIX, "").replace("/", "");
   }
 
   /**

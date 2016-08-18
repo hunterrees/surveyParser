@@ -23,8 +23,8 @@ public class AcceptanceTests {
   private static final String RANGE = "B1:I3";
   private static final String IMAGE_COLUMN = "D";
 
-  private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/acceptance/test/resources/testOne.html";
-  private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/testTwo.html";
+  private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/acceptance/test/resources/Test One.html";
+  private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/Test Two.html";
   private static final String FILE_PATH_FORMATTING_EXPECTED = "src/acceptance/test/resources/style.css";
 
   private static final String STUDENT_DIRECTORY = "studentPages";

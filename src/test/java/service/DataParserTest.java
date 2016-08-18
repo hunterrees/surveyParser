@@ -46,6 +46,8 @@ public class DataParserTest {
   private FileDataStoreFactory dataStoreFactory;
 
   private List<List<Object>> data;
+  private List<Object> innerData1;
+  private List<Object> innerData2;
   private List<Person> people;
 
   private DataParser testModel;
@@ -61,12 +63,12 @@ public class DataParserTest {
     headers.add(Person.LAST_NAME_KEY);
     headers.add("Link to Picture");
 
-    List<Object> innerData1 = new ArrayList<>();
+    innerData1 = new ArrayList<>();
     innerData1.add("First");
     innerData1.add("Last");
     innerData1.add(IMAGE_LINK);
 
-    List<Object> innerData2 = new ArrayList<>();
+    innerData2 = new ArrayList<>();
     innerData2.add("Second");
     innerData2.add("Second to Last");
     innerData2.add(IMAGE_LINK);
@@ -130,5 +132,15 @@ public class DataParserTest {
     testModel.retrieveData(EDIT_URL, DATA_RANGE);
 
     verify(values).get(SPREADSHEET_ID, DATA_RANGE);
+  }
+
+  @Test
+  public void shouldOrderPersonObjectsAlphabeticallyByLastName() {
+    data.remove(innerData1);
+    data.add(innerData1);
+
+    List<Person> result = testModel.parseData(data, IMAGE_COLUMN);
+
+    assertEquals(result, people);
   }
 }

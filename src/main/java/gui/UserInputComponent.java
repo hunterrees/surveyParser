@@ -89,7 +89,7 @@ class UserInputComponent extends JPanel {
       try {
         new SurveyParser().run(url, range, imageColumn);
         LOGGER.info("Successful run of Survey Parser.");
-        JOptionPane.showMessageDialog(UserInputDialog.getFrame(),
+        JOptionPane.showMessageDialog(SurveyParserApp.getFrame(),
                 "Finished generating files",
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE);
@@ -97,14 +97,14 @@ class UserInputComponent extends JPanel {
       }
       catch (IllegalArgumentException illegalArgumentException) {
         LOGGER.info("User input error: {}", illegalArgumentException.getMessage());
-        JOptionPane.showMessageDialog(UserInputDialog.getFrame(),
+        JOptionPane.showMessageDialog(SurveyParserApp.getFrame(),
                 illegalArgumentException.getMessage(),
                 "Invalid Input",
                 JOptionPane.ERROR_MESSAGE);
       }
       catch (Exception unexpectedException) {
         LOGGER.error("Unexpected Exception", unexpectedException);
-        JOptionPane.showMessageDialog(UserInputDialog.getFrame(),
+        JOptionPane.showMessageDialog(SurveyParserApp.getFrame(),
                 "Internal error likely involving credentials. Contact developer for help",
                 "Internal Error",
                 JOptionPane.ERROR_MESSAGE);

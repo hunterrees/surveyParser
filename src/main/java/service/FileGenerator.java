@@ -40,7 +40,8 @@ class FileGenerator {
   private static final String HEAD_FORMAT = "<head><title>%s Profile</title>" +
           "<link rel=\"stylesheet\"type=\"text/css\" href=\"%s\"></head>";
   private static final String TABLE_FORMAT = "<body><table><tr><td><img src=\"%s\"></td>" +
-          "<td><h1>%s</h1></td></tr></table>";
+          "<td><h1>%s</h1>%s</td></tr></table>";
+  private static final String LINK_TO_NEXT_PAGE = "<br><b>Next Student: </b><a href=\"%s\">%s</a>";
   private static final String ENTRY_FORMAT = "<b>%s: </b>%s<br>";
   private static final String COLON_ENTRY_FORMAT = "<b>%s </b>%s<br>";
   private static final String BOTTOM_HTML_ENTRIES = "</body></html>";
@@ -77,8 +78,13 @@ class FileGenerator {
       throw new IOException(String.format("Directory %s was not created successfully", STUDENT_PAGES_FOLDER));
     }
     writeStyleCssFile();
-    for (Person person : people) {
-      generateFile(person);
+    for (int i = 0; i < people.size(); i++) {
+      if (i < people.size() - 1) {
+        generateFile(people.get(i), people.get(i + 1));
+      }
+      else {
+        generateFile(people.get(i), null);
+      }
     }
   }
 
@@ -89,14 +95,20 @@ class FileGenerator {
     fileWriter.close();
   }
 
-  private void generateFile(Person person) throws IOException {
+  private void generateFile(Person person, Person nextPerson) throws IOException {
     String name = person.getName();
     LOGGER.info("Creating and writing file for {}", name);
     FileWriter fileWriter = getFileWriter(String.format(FILE_NAME_FORMAT, STUDENT_PAGES_FOLDER, person.getFileName()));
 
     fileWriter.write(TOP_HTML_ENTRIES);
     fileWriter.write(String.format(HEAD_FORMAT, name, CSS_FILE_NAME));
-    fileWriter.write(String.format(TABLE_FORMAT, person.getImageLink(), name));
+    if (nextPerson == null) {
+      fileWriter.write(String.format(TABLE_FORMAT, person.getImageLink(), name, ""));
+    }
+    else {
+      String link = String.format(LINK_TO_NEXT_PAGE, nextPerson.getFileName(), nextPerson.getName());
+      fileWriter.write(String.format(TABLE_FORMAT, person.getImageLink(), name, link));
+    }
 
     Map<String, String> data = person.getData();
     for (String header : data.keySet()) {

@@ -12,16 +12,16 @@ import java.security.GeneralSecurityException;
 /**
  * Client class for application. User interacts with this class to input data to download and parse spreadsheet data.
  */
-public class UserInputDialog extends JFrame {
+public class SurveyParserApp extends JFrame {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(UserInputDialog.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(SurveyParserApp.class);
 
   private static final Color BACKGROUND_COLOR = new Color(178, 178, 178);
   private static final Point WINDOW_LOCATION = new Point(300, 350);
   private static final String TITLE = "Survey Parser Application";
-  private static UserInputDialog frame;
+  private static SurveyParserApp frame;
 
-  private UserInputDialog() {
+  private SurveyParserApp() {
     this.setTitle(TITLE);
     this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     this.setBackground(BACKGROUND_COLOR);
@@ -50,14 +50,14 @@ public class UserInputDialog extends JFrame {
     }
     else {
       LOGGER.info("No command line arguments found. Opening up User Input Dialog Window.");
-      frame = new UserInputDialog();
+      frame = new SurveyParserApp();
     }
   }
 
   /**
    * Gets the JFrame. Used when creating JOptionPane windows for errors and information.
    *
-   * @return Parent component frame (UserInputDialog)
+   * @return Parent component frame (SurveyParserApp)
    */
   static JFrame getFrame() {
     return frame;

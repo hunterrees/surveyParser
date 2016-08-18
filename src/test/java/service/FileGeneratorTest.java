@@ -25,7 +25,7 @@ public class FileGeneratorTest {
   private static final String STYLE_SHEET = "<head><title>Test One Profile</title><link rel=\"stylesheet\"" +
           "type=\"text/css\" href=\"style.css\"></head>";
   private static final String IMAGE_EMBED = "<body><table><tr><td><img src=\"image.org\"></td><td>" +
-          "<h1>Test One</h1></td></tr></table>";
+          "<h1>Test One</h1><br><b>Next Student: </b><a href=\"Test Two.html\">Test Two</a></td></tr></table>";
   private static final String ADD_ENTRY = "<b>Test: </b>Test<br>";
   private static final String BLANK_ENTRY = "<b>Test: </b><br>";
   private static final String NA_ENTRY = "<b>Test: </b>N/A<br>";

@@ -132,6 +132,7 @@ class DataParser {
     for (int i = 1; i < data.size(); i++) {
       people.add(parseOnePerson(data.get(i), imageIndex));
     }
+    Collections.sort(people, (Person p1, Person p2) -> p1.getLastName().compareTo(p2.getLastName()));
     return people;
   }
 

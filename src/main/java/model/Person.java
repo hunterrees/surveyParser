@@ -56,6 +56,15 @@ public class Person {
     return result.toString();
   }
 
+  /**
+   * Gets the last name of person (used for sorting).
+   *
+   * @return last name of person
+   */
+  public String getLastName() {
+    return data.get(LAST_NAME_KEY);
+  }
+
   private String getFirstName(String firstName, String preferredName) {
     if (preferredName == null || firstName.equalsIgnoreCase(preferredName) || preferredName.equalsIgnoreCase(SAME)) {
       return firstName;

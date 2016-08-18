@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.GeneralSecurityException;
+import java.text.Normalizer;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -146,12 +147,17 @@ class DataParser {
     String imageLink = "";
     for (int i = 0; i < dataToParse.size(); i++) {
       if (i != imageIndex) {
-        data.put(headers.get(i), dataToParse.get(i).toString());
+        data.put(headers.get(i), normalizeData(dataToParse.get(i).toString()));
       }
       else {
         imageLink = dataToParse.get(i).toString();
       }
     }
     return new Person(data, imageLink);
+  }
+
+  private String normalizeData(String input) {
+    String result = Normalizer.normalize(input, Normalizer.Form.NFD);
+    return result.replaceAll("[^\\p{ASCII}]", "");
   }
 }

@@ -37,6 +37,8 @@ public class FileGeneratorTest {
   @Mock
   FileWriter fileWriterStyle;
   @Mock
+  FileWriter fileWriterDirectory;
+  @Mock
   File directory;
 
   private List<String> trace;
@@ -76,6 +78,9 @@ public class FileGeneratorTest {
           case "studentPages/style.css":
             trace.add(fileName);
             return fileWriterStyle;
+          case "studentPages/Student Directory.html":
+            trace.add(fileName);
+            return fileWriterDirectory;
           default:
             return null;
         }
@@ -108,14 +113,14 @@ public class FileGeneratorTest {
   public void shouldGenerateFileForEachStudent() throws IOException {
     testModel.generateFiles(people);
 
-    assertEquals(trace.size(), 3);
+    assertEquals(trace.size(), 4);
   }
 
   @Test
   public void shouldWriteFileToCorrectLocation() throws IOException {
     testModel.generateFiles(people);
 
-    assertEquals(trace.get(1), "studentPages/Test One.html");
+    assertEquals(trace.get(2), "studentPages/Test One.html");
   }
 
   @Test (expectedExceptions = RuntimeException.class, expectedExceptionsMessageRegExp = ".*add colon entry.*")
@@ -178,5 +183,12 @@ public class FileGeneratorTest {
     when(directory.exists()).thenReturn(false);
 
     testModel.generateFiles(people);
+  }
+
+  @Test
+  public void shouldCreateDirectoryPage() throws IOException {
+    testModel.generateFiles(people);
+
+    assertEquals(trace.get(1), "studentPages/Student Directory.html");
   }
 }

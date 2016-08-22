@@ -21,7 +21,10 @@ class FileGenerator {
 
   private static final String STUDENT_PAGES_FOLDER = "studentPages";
   private static final String CSS_FILE_NAME = "style.css";
+  private static final String DIRECTORY_FILE_NAME = "Student Directory.html";
   private static final String FILE_NAME_FORMAT = "%s/%s";
+  private static final String DIRECTORY_LOCATION = String.format(FILE_NAME_FORMAT,
+          STUDENT_PAGES_FOLDER, DIRECTORY_FILE_NAME);
   private static final String CSS_LOCATION = String.format(FILE_NAME_FORMAT, STUDENT_PAGES_FOLDER, CSS_FILE_NAME);
 
   private static final String CSS_DATA = "body {\n" +
@@ -39,11 +42,15 @@ class FileGenerator {
   private static final String TOP_HTML_ENTRIES = "<!DOCTYPE html><html>";
   private static final String HEAD_FORMAT = "<head><title>%s Profile</title>" +
           "<link rel=\"stylesheet\"type=\"text/css\" href=\"%s\"></head>";
-  private static final String TABLE_FORMAT = "<body><table><tr><td><img src=\"%s\"></td>" +
+  private static final String BODY_AND_TABLE = "<body><table>";
+  private static final String TABLE_FORMAT = BODY_AND_TABLE + "<tr><td><img src=\"%s\"></td>" +
           "<td><h1>%s</h1>%s</td></tr></table>";
-  private static final String LINK_TO_NEXT_PAGE = "<br><b>Next Student: </b><a href=\"%s\">%s</a>";
+  private static final String LINK = "<a href=\"%s\">%s</a>";
+  private static final String LINK_TO_NEXT_PAGE = "<br><b>Next Student: </b>" + LINK;
+  private static final String LINK_FORMAT = "<tr>" + LINK + "</tr><br>";
   private static final String ENTRY_FORMAT = "<b>%s: </b>%s<br>";
   private static final String COLON_ENTRY_FORMAT = "<b>%s </b>%s<br>";
+  private static final String END_TABLE = "</table>";
   private static final String BOTTOM_HTML_ENTRIES = "</body></html>";
 
   private final File directory;
@@ -78,14 +85,26 @@ class FileGenerator {
       throw new IOException(String.format("Directory %s was not created successfully", STUDENT_PAGES_FOLDER));
     }
     writeStyleCssFile();
+
+    LOGGER.info("Creating directory page.");
+    FileWriter directoryFileWriter = getFileWriter(DIRECTORY_LOCATION);
+    directoryFileWriter.write(TOP_HTML_ENTRIES);
+    directoryFileWriter.write(String.format(HEAD_FORMAT, "Directory Page", CSS_FILE_NAME));
+    directoryFileWriter.write(BODY_AND_TABLE);
+
     for (int i = 0; i < people.size(); i++) {
+      Person person = people.get(i);
+      directoryFileWriter.write(String.format(LINK_FORMAT, person.getFileName(), person.getName()));
       if (i < people.size() - 1) {
-        generateFile(people.get(i), people.get(i + 1));
+        generateFile(person, people.get(i + 1));
       }
       else {
-        generateFile(people.get(i), null);
+        generateFile(person, null);
       }
     }
+    directoryFileWriter.write(END_TABLE);
+    directoryFileWriter.write(BOTTOM_HTML_ENTRIES);
+    directoryFileWriter.close();
   }
 
   private void writeStyleCssFile() throws IOException {

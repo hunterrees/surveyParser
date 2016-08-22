@@ -26,19 +26,23 @@ public class AcceptanceTests {
   private static final String FILE_PATH_TEST_ONE_EXPECTED = "src/acceptance/test/resources/Test One.html";
   private static final String FILE_PATH_TEST_TWO_EXPECTED = "src/acceptance/test/resources/Test Two.html";
   private static final String FILE_PATH_FORMATTING_EXPECTED = "src/acceptance/test/resources/style.css";
+  private static final String FILE_PATH_DIRECTORY_EXPECTED = "src/acceptance/test/resources/Student Directory.html";
 
-  private static final String STUDENT_DIRECTORY = "studentPages";
+  private static final String DIRECTORY = "studentPages";
   private static final String FILE_NAME_FORMAT = "%s/%s";
   private static final String FILE_PATH_TEST_ONE_ACTUAL = String.format(FILE_NAME_FORMAT,
-          STUDENT_DIRECTORY, "Test One.html");
+          DIRECTORY, "Test One.html");
   private static final String FILE_PATH_TEST_TWO_ACTUAL = String.format(FILE_NAME_FORMAT,
-          STUDENT_DIRECTORY, "Test Two.html");
+          DIRECTORY, "Test Two.html");
   private static final String FILE_PATH_FORMATTING = String.format(FILE_NAME_FORMAT,
-          STUDENT_DIRECTORY, "style.css");
+          DIRECTORY, "style.css");
+  private static final String FILE_PATH_DIRECTORY = String.format(FILE_NAME_FORMAT,
+          DIRECTORY, "Student Directory.html");
 
   private String testOneExpected;
   private String testTwoExpected;
   private String testFormattingExpected;
+  private String testDirectoryExpected;
 
   private SurveyParser surveyParser;
 
@@ -51,6 +55,7 @@ public class AcceptanceTests {
     testOneExpected = readData(new File(FILE_PATH_TEST_ONE_EXPECTED));
     testTwoExpected = readData(new File(FILE_PATH_TEST_TWO_EXPECTED));
     testFormattingExpected = readData(new File(FILE_PATH_FORMATTING_EXPECTED));
+    testDirectoryExpected = readData(new File(FILE_PATH_DIRECTORY_EXPECTED));
   }
 
   private String readData(File file) throws FileNotFoundException {
@@ -72,10 +77,12 @@ public class AcceptanceTests {
     File testOneActual = new File(FILE_PATH_TEST_ONE_ACTUAL);
     File testTwoActual = new File(FILE_PATH_TEST_TWO_ACTUAL);
     File testFormatting = new File(FILE_PATH_FORMATTING);
+    File testDirectory = new File(FILE_PATH_DIRECTORY);
 
     assertTrue(testOneActual.exists());
     assertTrue(testTwoActual.exists());
     assertTrue(testFormatting.exists());
+    assertTrue(testDirectory.exists());
 
     LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_TEST_ONE_EXPECTED, FILE_PATH_TEST_ONE_ACTUAL);
     String testOneContents = readData(testOneActual);
@@ -88,6 +95,10 @@ public class AcceptanceTests {
     LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_FORMATTING_EXPECTED, FILE_PATH_FORMATTING);
     String testFormattingContents = readData(testFormatting);
     assertEquals(testFormattingExpected, testFormattingContents);
+
+    LOGGER.info("Comparing contents of files {} and {}", FILE_PATH_DIRECTORY_EXPECTED, FILE_PATH_DIRECTORY);
+    String testDiretoryContents = readData(testDirectory);
+    assertEquals(testDirectoryExpected, testDiretoryContents);
   }
 
   @AfterClass
@@ -99,7 +110,8 @@ public class AcceptanceTests {
     File testOneActual = new File(FILE_PATH_TEST_ONE_ACTUAL);
     File testTwoActual = new File(FILE_PATH_TEST_TWO_ACTUAL);
     File testFormatting = new File(FILE_PATH_FORMATTING);
-    File directory = new File(STUDENT_DIRECTORY);
+    File studentDirectory = new File(FILE_PATH_DIRECTORY);
+    File directory = new File(DIRECTORY);
 
     if (testOneActual.exists()) {
       assertTrue(testOneActual.delete());
@@ -109,6 +121,9 @@ public class AcceptanceTests {
     }
     if (testFormatting.exists()) {
       assertTrue(testFormatting.delete());
+    }
+    if(studentDirectory.exists()) {
+      assertTrue(studentDirectory.delete());
     }
     if (directory.exists()) {
       assertTrue(directory.delete());

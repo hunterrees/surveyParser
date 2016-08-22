@@ -1,6 +1,6 @@
 # Survey Parser
 
-Application that parses Google Forms data from an associated Google Spreadsheet
+Application that parses Google Forms data from an associated Google Spreadsheet. 
 
 #General Guidelines
 
@@ -16,6 +16,8 @@ Choose the one that fits your operating system, download, and install before run
 2. Be sure to include the row with the column entries (First Name, Last Name, etc). This is the only way the application can correctly generate the one-page views for each survey response.
 3. Image column indicates the column in the spreadsheet where the image links are found, not where the images themselves appear.
 4. If there are columns you wish to not include, you must rearrange the columns in your spreadsheet. You can only give one continuous range of cells as input to the application.
+
+*A "Student Directory" page is created that has links to all other generated files.
 
 #Command Line Interface
 

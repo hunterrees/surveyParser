@@ -5,6 +5,7 @@ Application that parses Google Forms data from an associated Google Spreadsheet.
 #General Guidelines
 
 **Java JDK 8**
+
 In order to run this application, you must have Java JDK 8 downloaded on your computer. 
 You can find that [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
